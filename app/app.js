@@ -15,6 +15,7 @@ const db = new JsonDB("db", true /*To autosave*/, true /*Save in human reable fo
 
 
 //Parsing method
+//will convert and execute the commands
 function parse(querystring){
     //Inject function
     function inject(str, into){
@@ -57,23 +58,42 @@ function parse(querystring){
     var array =  querystring.split(".");
     if(array[0] === "db"){
         //Query is correct
-        var last = array.length - 1;
-        var path = [];
+        var last = array.length - 1, //Set a bunch of vars
+        path = [];
         for (var i = 1 ; i < last; i++) {
             path.push(array[i]);
         }
         var into = "/" + path.join("/")
         var command = inject("db." + array[last], into);
-        return eval(command);
+        console.log(command);
+        try {
+            return eval(command);
+        } catch (error) {
+            return Error;
+        }
     } else {
         //Query is wrong
         return true; //is query wrong true = Error
     } 
 }
-/*
-str = 'db.hello.print("a")'
-var arr = parse(str);
 
-console.log(arr);
-*/
-print(parse('db.posts.delete()'))
+
+//Examples:
+var ex1 = 'db.array[].push("Hello")' // push to array 
+
+var ex2 = 'db.line.push("You can add single line strings here", false)' //add false so you dont overide the data
+
+var ex3 = 'db.book.push({price: 14,99})' //Add a price
+
+var ex4 = 'db.book.price.push(12,99)' //Update price 
+
+//deltes entire database
+console.log(parse('db.delete()'));
+
+parse(ex1);
+parse(ex2);
+console.log(parse('db.getData()'));
+parse(ex3); //adding price
+console.log(parse('db.getData()'));
+parse(ex4);
+console.log(parse('db.getData()'));
