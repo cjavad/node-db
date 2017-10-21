@@ -1,9 +1,0 @@
-{
-    "array": [
-        "Hello"
-    ],
-    "line": "You can add single line strings here",
-    "book": {
-        "price": 12
-    }
-}
