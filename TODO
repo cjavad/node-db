@@ -1,6 +1,7 @@
 TODO:
     ✔ Create a system where you can do db.path.path.getData(Sort, Sort) @high
     ☐ Make a auth system with crypto-js @critical @security 
-    ☐ NEED to replace eval() @critical @security
+    ✔ NEED to replace eval() @critical @security
     ☐ Add a system so not every one can access all paths?? @low 
     ☐ You cant do add . in args or ints or use , in ints @high @function
+    ☐ Split list-args up into seprate args @high  @half-critical 

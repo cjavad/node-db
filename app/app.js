@@ -3,15 +3,21 @@
 //Require modules that are needed
 const express = require("express");
 const path = require("path");
-const JsonDB = require("node-json-db");
 const auth = require("./lib/auth.js");
-const query = require("./lib/query.js");
-
+const query = require("./lib/query.js"); //database is in there
+//Database config
+const JsonDB = require("node-json-db");
+const db = new JsonDB("db", true /*To autosave*/, true /*Save in human reable form*/);
 //Express config
 const app = express();
-const port = process.env.PORT || 80;
+const port = process.env.PORT || 8080;
 
-//Database config
-const db = new JsonDB("db", true /*To autosave*/, true /*Save in human reable form*/);
+//debuging
+var l = query.parse('db.hello.push({a:"My name is javad"})');
+console.log(l);
+console.log(db[l[0]]("/a", "none"));
 
+//Api config
+require("./lib/api.js")(app, query);
+app.listen(port)
 

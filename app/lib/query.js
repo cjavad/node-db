@@ -9,13 +9,9 @@ fbase = {
 //Parsing method
 //will convert and execute the commands
 //needs database to work with
-function parse(querystring, run = true, db = fbase /*Only needed if run = true*/){
+function parse(querystring, run = true){
     //Inject function
-    function inject(str, into){
-        //Splice and inject prototype
-        String.prototype.splice = function(idx, rem, str) {
-            return this.slice(0, idx) + str + this.slice(idx + Math.abs(rem));
-        };
+    function extract(str, path){ //path for all db.* functions
         //Get precise location of char in string with support for using charAt again to verify
         function getlp(string, char, cat = true){
             //For loop to loop over strign
@@ -33,19 +29,21 @@ function parse(querystring, run = true, db = fbase /*Only needed if run = true*/
             //else return false
             return false;
         }
-        //Use getlp
-        var s1 = getlp(str, "(", false);
-        var s2 = getlp(str, ")", false);
-        //Check results and if there is other args
-        if(s2 - s1 !== 1){
-            //add comma and path
-            into = '"' + into + '", ';
-        } else if(s2 - s1 === 1) {
-            //Dont add comma only path
-            into = '"' + into + '"';
+        //Split Command
+        var tmp = str.split("(");
+        //check where ( and ) is
+        var s1 = getlp(str, "("),
+        s2 = getlp(str, ")");
+        if(s2 - s1 === 0 ? false:true){
+            var arg = '"/' + path + '", ' + tmp[1].split(")")[0];
+        } else {
+            var arg = '"/' + path + '"';
         }
-        //return results from splice
-        return str.splice(s1, 0, into);
+        //Work it out here:
+        var array = [] //array for command and args
+        array.push(tmp[0]);
+        array.push(arg);
+        return array;
     }
     //spliting query string to array
     var array =  querystring.split(".");
@@ -56,22 +54,14 @@ function parse(querystring, run = true, db = fbase /*Only needed if run = true*/
         for (var i = 1 ; i < last; i++) {
             path.push(array[i]);
         }
-        var into = "/" + path.join("/")
-        var command = inject("db." + array[last], into);
-        if(run){
-            try {
-                return eval(command);
-            } catch (error) {
-                return Error;
-            }
-        } else {
-            return command;
-        }
+        var list = extract(array[last], path.join("/"));
+        return list;
     } else {
         //Query is wrong
         return true; //is query wrong true = Error
     } 
 }
+//parse('db.a.push({yo:"ho"})');
 
 /*
 //Examples:
