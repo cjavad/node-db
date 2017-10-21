@@ -29,15 +29,17 @@ function parse(querystring, run = true){
             //else return false
             return false;
         }
-        //Split Command
+        var arg = [];
+        //Split
         var tmp = str.split("(");
         //check where ( and ) is
         var s1 = getlp(str, "("),
         s2 = getlp(str, ")");
         if(s2 - s1 === 0 ? false:true){
-            var arg = '"/' + path + '", ' + tmp[1].split(")")[0];
+            arg.push('"/' + path + '"');
+            arg.push(...tmp[1].split(")")[0].split(","));
         } else {
-            var arg = '"/' + path + '"';
+            arg.push('"/' + path + '"');
         }
         //Work it out here:
         var array = [] //array for command and args

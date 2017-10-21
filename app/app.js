@@ -13,11 +13,9 @@ const app = express();
 const port = process.env.PORT || 8080;
 
 //debuging
-var l = query.parse('db.hello.push({a:"My name is javad"})');
-console.log(l);
-console.log(db[l[0]]("/a", "none"));
+var l = query.parse('db.hello.push({a:"My name is javad"}, true)');
+console.log(l[1][2]);
 
 //Api config
 require("./lib/api.js")(app, query);
-app.listen(port)
-
+//app.listen(port)
