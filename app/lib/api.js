@@ -5,6 +5,7 @@ const db = require("./db").db
 
 
 
+
 module.exports = function(app, query){
     app.use(function(req, res, next){
         res.header("Access-Control-Allow-Origin", "*");
@@ -17,6 +18,7 @@ module.exports = function(app, query){
     });
 
     app.get("/endpoint", (req, res) => {
+        var False = false //support for python
         var body = JSON.parse(req.query.body);
         var hash = auth.get();
 
