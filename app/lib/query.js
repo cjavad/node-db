@@ -1,11 +1,3 @@
-//Fake database
-fbase = {
-    push: function(arg1, arg2, arg3){console.log("YO"); return false;},
-    delete: function(arg1, arg2, arg3){console.log("Dont do this to me"); return false;},
-    getData: function(arg1, arg2, arg3){console.log("Sorry i didn't get that"); return false;}
-}
-
-
 //Parsing method
 //will convert and execute the commands
 //needs database to work with
@@ -29,30 +21,25 @@ function parse(querystring, run = true){
             //else return false
             return false;
         }
-        var arg = [];
+        var args = ['"/' + path + '"'];
         //Split
         var tmp = str.split("(");
         //check where ( and ) is
         var s1 = getlp(str, "("),
         s2 = getlp(str, ")");
-        if(s2 - s1 === 0 ? false:true){
-            arg.push('"/' + path + '"');
-            arg.push(...tmp[1].split(")")[0].split(","));
-        } else {
-            arg.push('"/' + path + '"');
+        if(s2 - s1 !== 0){
+            args.push(...tmp[1].split(")")[0].split(","));
         }
-        //Work it out here:
-        var array = [] //array for command and args
-        array.push(tmp[0]);
-        array.push(arg);
-        return array;
+        //return array:
+        return [tmp[0], args];
     }
     //spliting query string to array
     var array =  querystring.split(".");
     if(array[0] === "db"){
         //Query is correct
-        var last = array.length - 1, //Set a bunch of vars
-        path = [];
+        //Set a path
+        var last = array.length - 1
+        var path = [];
         for (var i = 1 ; i < last; i++) {
             path.push(array[i]);
         }
@@ -88,6 +75,5 @@ console.log(parse('db.getData()'));
 */
 
 module.exports = {
-    parse: parse,
-    fakedb:fbase
+    parse: parse
 };

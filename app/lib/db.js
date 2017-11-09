@@ -40,4 +40,12 @@ function pquery(q){
     
     return false;
 }
-console.log(pquery('db.hello.push(10, false)'));
+
+console.time("BENCH")
+query.parse("db.hello.push('hello')")
+console.timeEnd("BENCH")
+
+module.exports = {
+    query: query,
+    parse: pquery
+}
