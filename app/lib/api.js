@@ -6,7 +6,8 @@ const db = require("./db").db
 
 
 
-module.exports = function(app, query){
+module.exports = function(app, userpass){
+    auth.config(userpass.username, userpass.password);
     app.use(function(req, res, next){
         res.header("Access-Control-Allow-Origin", "*");
         res.header("Access-Control-Allow-Headers", "*, *, *, Accept");
@@ -20,17 +21,15 @@ module.exports = function(app, query){
     app.get("/endpoint", (req, res) => {
         var False = false //support for python
         var body = JSON.parse(req.query.body);
-        var hash = auth.get();
 
         if(!("key" in body || "path" in body || "command" in body)){
             return false;
         } else if(!body.command in ["getData", "push", "delete"]){
             return false;
         }
-        if(!body.hash === hash){
-            res.send("Wrong Key");
+        if(!auth.check(body.username, body.password)){
+            res.send("Wrong password/username");
             return false;
-    
         } else if(body.command === ("getData" || "delete")){
             var sendt = db[body.command](body.path)
             res.send(sendt);
@@ -48,7 +47,8 @@ module.exports = function(app, query){
 
 /* Example endpoint body object
 {
-    key:3049a1f8327e0215ea924b9e4e04cd4b0ff1800c74a536d9b81d3d8ced9994d3,
+    username:"admin",
+    password:"login",
     command: "push"
     path:"/hello/path[]",
     data:["array"],

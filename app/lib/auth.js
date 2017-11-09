@@ -4,14 +4,21 @@ const crypto = require("crypto-js");
 //Simple HASH functions
 
 //hardcodes password
-pass = "passwords"
+let user;
+let pass;
+
+function config(username, password){
+    user = username;
+    pass = password;
+    return true;
+}
 
 function ithash(string){
     return crypto.SHA256(string).toString()
 }
 
-function check(string, hash){
-    return ithash(string) === hash;
+function check(username, string){
+    if(ithash(string) === get() && username === user);
 }
 
 function get(){
@@ -19,9 +26,8 @@ function get(){
 }
 
 
-console.log(get())
-
 module.exports = {
+    config:config,
     hash:ithash,
     check:check,
     get:get
