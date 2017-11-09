@@ -1,6 +1,3 @@
 {
-    "array": [
-        "Hello"
-    ],
-    "line": "You can add single line strings here"
+    "data": "hello"
 }

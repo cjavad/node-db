@@ -5,47 +5,29 @@ const db = new JsonDB("db", true /*To autosave*/, true /*Save in human reable fo
 const query = require("./query.js");
 
 function pquery(q){
-    function isNumeric(num){
-        return !isNaN(num)
-    }
-    function tryParseJSON (jsonString){
-        try {
-            var o = JSON.parse(jsonString);
-    
-            // Handle non-exception-throwing cases:
-            // Neither JSON.parse(false) or JSON.parse(1234) throw errors, hence the type-checking,
-            // but... JSON.parse(null) returns null, and typeof null === "object", 
-            // so we must check for that, too. Thankfully, null is falsey, so this suffices:
-            if (o && typeof o === "object") {
-                return o;
-            }
-        }
-        catch (e) { }
-    
-        return false;
-    };
     const out = query.parse(q);
-    var path = out[1][0],
-    command = out[0],
-    args = out[1];
-    if(isNumeric(args[1])){
-        var data = Number(args[1]);
-    } else if(typeof tryParseJSON(args[1]) === "object"){
-        var data = JSON.parse(args[1]);
-    } else if(typeof args[1] === "string"){
-        data = args[1];
-    } else {
-        return false;
-    }
     
-    return false;
+    var args = out[1];
+    //Split for array testing
+    var d = args[1].split("[").join().split("]").join().split(",");
+ 
+    eval("args[0] = " + args[0])
+ 
+    if(args.length === 3){
+        db[out[0]](args[0], args[1], args[2])
+    } else if(args.length === 2){
+        db[out[0]](args[0], args[1])
+    } else if(args.length === 1){
+        db[out[0]](args[0])
+    } else {
+        return false
+    }
+
+    //if success return true
+    return true
 }
 
-console.time("BENCH")
-query.parse("db.hello.push('hello')")
-console.timeEnd("BENCH")
 
 module.exports = {
-    query: query,
-    parse: pquery
+    db:db
 }

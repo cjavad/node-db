@@ -1,18 +1,28 @@
 //lib/auth.js
 const crypto = require("crypto-js");
 
-//Simple encryption/decryption functions
+//Simple HASH functions
 
-function hash(string){
+//hardcodes password
+pass = "passwords"
+
+function ithash(string){
     return crypto.SHA256(string).toString()
 }
 
 function check(string, hash){
-    return string === hash;
+    return ithash(string) === hash;
+}
+
+function get(){
+    return ithash(pass)
 }
 
 
+console.log(get())
 
 module.exports = {
-    hash:hash
+    hash:ithash,
+    check:check,
+    get:get
 }

@@ -21,7 +21,7 @@ function parse(querystring, run = true){
             //else return false
             return false;
         }
-        var args = ['"/' + path + '"'];
+        var args = ['/' + path];
         //Split
         var tmp = str.split("(");
         //check where ( and ) is
