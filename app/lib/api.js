@@ -18,7 +18,7 @@ module.exports = function(app, userpass){
         res.send(str);
     });
 
-    app.get("/endpoint", (req, res) => {
+    app.get("/db", (req, res) => {
         var False = false //support for python
         var body = JSON.parse(req.query.body);
 
@@ -29,11 +29,14 @@ module.exports = function(app, userpass){
         }
         if(!auth.check(body.username, body.password)){
             res.send("Wrong password/username");
+            console.log(body)
             return false;
-        } else if(body.command === ("getData" || "delete")){
+        } else if(body.command === "getData" || body.command ===  "delete"){
+            console.log(body.command.toUpperCase());
             var sendt = db[body.command](body.path)
             res.send(sendt);
         } else if(("data" in body || "overide" in body) && body.command === "push"){
+            console.log(body.command.toUpperCase());
             var sendt = db[body.command](body.path, body.data, body.overide);
             res.send(sendt)
         } else {

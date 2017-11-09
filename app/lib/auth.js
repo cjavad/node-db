@@ -18,7 +18,9 @@ function ithash(string){
 }
 
 function check(username, string){
-    if(ithash(string) === get() && username === user);
+    if(ithash(string) === get() && username === user){
+        return true;
+    }
 }
 
 function get(){
