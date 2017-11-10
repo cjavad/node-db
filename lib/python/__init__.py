@@ -1,11 +1,11 @@
 import requests
 import json
 
-def get_obj(username, password, command, path, data = None, overide = None):
+def get_obj(username, password, command, path, data = None, override = None):
     if not command in ["push", "getData", "delete"]:
         return False
-    elif data and overide != None:
-        return {"username":username,"password":password,"command":command,"path":path,"data":data,"overide":overide}
+    elif data and override != None:
+        return {"username":username,"password":password,"command":command,"path":path,"data":data,"override":override}
     else:
         return {"username":username,"password":password,"command":command,"path":path}
 
@@ -17,14 +17,24 @@ class database:
         self.port = port
         self.username = username
         self.password = password
+        true = True
+        false = False
+        check = requests.get("http://" + host + ":"+ str(port) + "/cp?user="+username + "&pass="+password)
+        print(check.text)
+        if check.text == "true":
+            print("Correct Pass")
+        elif check.text == "false":
+            print("Wrong password/username")
+        else:
+            print("Could not connect")
 
     def get(self, path):
         obj = get_obj(self.username, self.password, "getData", path)
         url = "http://" + self.host + ":" + str(self.port) + "/db?body=" + json.dumps(obj)
         return requests.get(url)
 
-    def push(self, path, data, overide = True):
-        obj = get_obj(self.username, self.password, "push", path, data, overide)
+    def push(self, path, data, override = True):
+        obj = get_obj(self.username, self.password, "push", path, data, override)
         url = "http://" + self.host + ":" + str(self.port) + "/db?body=" + json.dumps(obj)
         return requests.get(url)
 

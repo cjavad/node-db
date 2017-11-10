@@ -1,7 +1,7 @@
 //lib/api.js
 //express routing config
 const auth = require("./auth.js");
-const db = require("./db").db
+const db = require("./db.js").db
 
 
 
@@ -16,6 +16,18 @@ module.exports = function(app, userpass){
     app.get("/", (req, res, next) => {
         var str = '<body style="background: blanchedalmond; color: sandybrown; margin: 0 auto; width: 50%;"><h2>Where is the control panel???</h2></body>'
         res.send(str);
+    });
+
+    app.get("/cp", (req, res) => {
+        c = auth.check(req.query.user, req.query.pass)
+        if(c){
+            res.send("true")
+        } else if(!c){
+            res.send("false")
+        } else {
+            res.send("error")
+        }
+        return true
     });
 
     app.get("/db", (req, res) => {
@@ -35,9 +47,9 @@ module.exports = function(app, userpass){
             console.log(body.command.toUpperCase());
             var sendt = db[body.command](body.path)
             res.send(sendt);
-        } else if(("data" in body || "overide" in body) && body.command === "push"){
+        } else if(("data" in body || "override" in body) && body.command === "push"){
             console.log(body.command.toUpperCase());
-            var sendt = db[body.command](body.path, body.data, body.overide);
+            var sendt = db[body.command](body.path, body.data, body.override);
             res.send(sendt)
         } else {
             res.sendStatus(403);
@@ -55,7 +67,7 @@ module.exports = function(app, userpass){
     command: "push"
     path:"/hello/path[]",
     data:["array"],
-    overide: false
+    override: false
 }
 
 

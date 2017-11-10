@@ -1,0 +1,19 @@
+!_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;" to lines/
+!_TAG_FILE_SORTED	1	/0=unsorted, 1=sorted, 2=foldcase/
+!_TAG_PROGRAM_AUTHOR	Darren Hiebert	/dhiebert@users.sourceforge.net/
+!_TAG_PROGRAM_NAME	Exuberant Ctags	//
+!_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
+!_TAG_PROGRAM_VERSION	5.9~svn20110310	//
+__init__	../lib/python/__init__.py	/^    def __init__(self, host, port,username, password):$/;"	kind:member	line:15
+__init__.py	../lib/python/__init__.py	1;"	kind:file	line:1
+database	../lib/python/__init__.py	/^class database:$/;"	kind:class	line:14
+db	../lib/python/test.py	/^db = database(host, port, username, password)$/;"	kind:variable	line:10
+delete	../lib/python/__init__.py	/^    def delete(self, path):$/;"	kind:member	line:38
+get	../lib/python/__init__.py	/^    def get(self, path):$/;"	kind:member	line:28
+get_obj	../lib/python/__init__.py	/^def get_obj(username, password, command, path, data = None, override = None):$/;"	kind:function	line:4
+host	../lib/python/test.py	/^host = "localhost"$/;"	kind:variable	line:5
+password	../lib/python/test.py	/^password = "password"$/;"	kind:variable	line:8
+port	../lib/python/test.py	/^port = "3434" #can be int$/;"	kind:variable	line:6
+push	../lib/python/__init__.py	/^    def push(self, path, data, override = True):$/;"	kind:member	line:33
+test.py	../lib/python/test.py	1;"	kind:file	line:1
+username	../lib/python/test.py	/^username = "admin"$/;"	kind:variable	line:7

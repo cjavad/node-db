@@ -14,7 +14,7 @@ json_obj = {
     "command":"push", #can be push, getData or delete 
     "path":"/unix/like/path",
     "data":["an array", {"type":"object"}],
-    "overide": False 
+    "override": False 
 }
 url =  "http://localhost:8080/endpoint?body=" + json_obj
 r = requests.get(url)

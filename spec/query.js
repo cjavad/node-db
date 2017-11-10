@@ -56,7 +56,7 @@ function parse(querystring, run = true){
 //Examples:
 var ex1 = 'db.array[].push("Hello")' // push to array 
 
-var ex2 = 'db.line.push("You can add single line strings here", false)' //add false so you dont overide the data
+var ex2 = 'db.line.push("You can add single line strings here", false)' //add false so you dont override the data
 
 var ex3 = 'db.book.push({price: 14,99})' //Add a price
 
