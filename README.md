@@ -1,5 +1,5 @@
 # node-db
-A nosql database written in node (Insperation from the npm module node-json-db and based on the json-db-api)
+A nosql database written in node (Using a fork of [node-json-db](https://github.com/Belphemur/node-json-db/blob/master/LICENSE))
 using unix-like paths
 
 example:
