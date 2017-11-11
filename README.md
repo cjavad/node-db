@@ -5,18 +5,17 @@ using unix-like paths
 example:
 ```python
 #!bin/python3
-import requests
-   
-auth_key = "weiwfe0eiwd0i0exw0ei20e2i0ei0ei0weiw0eiw0ei"
+from dblib import database #python database lib
 
-json_obj = {
-    "key":auth_key,
-    "command":"push", #can be push, getData or delete 
-    "path":"/unix/like/path",
-    "data":["an array", {"type":"object"}],
-    "override": False 
-}
-url =  "http://localhost:8080/endpoint?body=" + json_obj
-r = requests.get(url)
-print(r.text) #response
+db = database("localhost", "3434", "admin", "password")
+#push to database
+db.push("/path/with/object", {"key":"Hello"})
+
+print(db.get("/").text) # prints {"path":{"with":{"object":{"key":"Hello"}}}}
+
+print(db.get("/path/to/object/key").text) #prints Hello
+
+db.delete("/") #deletes hole database
+
+print(db.get("/").text) #prints {}
 ```

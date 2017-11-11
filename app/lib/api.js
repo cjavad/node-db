@@ -45,8 +45,17 @@ module.exports = function(app, userpass){
             return false;
         } else if(body.command === "getData" || body.command ===  "delete"){
             console.log(body.command.toUpperCase());
-            var sendt = db[body.command](body.path)
-            res.send(sendt);
+            try {
+                var sendt = db[body.command](body.path)
+                res.send(sendt);
+            } catch (error) {
+                if(error.name === "DataError"){
+                    res.send("Path does not exist")
+                } else {
+                    console.log(error.name)
+                    res.send(error.name)
+                }
+            }
         } else if(("data" in body || "override" in body) && body.command === "push"){
             console.log(body.command.toUpperCase());
             var sendt = db[body.command](body.path, body.data, body.override);

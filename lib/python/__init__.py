@@ -43,3 +43,8 @@ class database:
         url = "http://" + self.host + ":" + str(self.port) + "/db?body=" + json.dumps(obj)
         return requests.get(url)
 
+    def checkpath(self, path):
+        if self.get(path).text == "Path does not exist":
+            return False
+        else:
+            return True
