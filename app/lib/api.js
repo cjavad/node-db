@@ -1,13 +1,8 @@
 //lib/api.js
 //express routing config
 const auth = require("./auth.js");
-const db = require("./db.js").db
 
-
-
-
-module.exports = function(app, userpass){
-    auth.config(userpass.username, userpass.password);
+module.exports = function(app, db){
     app.use(function(req, res, next){
         res.header("Access-Control-Allow-Origin", "*");
         res.header("Access-Control-Allow-Headers", "*, *, *, Accept");
