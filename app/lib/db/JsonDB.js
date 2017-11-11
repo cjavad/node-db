@@ -3,32 +3,31 @@
  * Changes made by Javad Shafique
  */
 
-
 "use strict";
 var FS = require('fs');
 var events = require('events');
 var JsonUtils = require("./lib/utils");
 var DBParentData = require("./lib/DBParentData");
+var Query = require("./lib/Query")
 var DatabaseError = require("./lib/Errors").DatabaseError;
 var DataError = require("./lib/Errors").DataError;
-var Query = require("./lib/Query");
 var mkdirp = require('mkdirp');
 var path = require('path');
 
 /**
-    * Create the JSON database
-    * @param filename where to save the data base
-    * @param saveOnPush saving on modification of the data
-    * @param humanReadable is the json file humand readable 
-    * @returns {JsonDB}
-    * @constructor
-*/
+ * Create the JSON database
+ * @param filename where to save the data base
+ * @param saveOnPush saving on modification of the data
+ * @param humanReadable is the json file humand readable 
+ * @returns {JsonDB}
+ * @constructor
+ */
 var JsonDB = function (filename, saveOnPush, humanReadable) {
 
     this.filename = filename;
 
     if (!JsonUtils.strEndWith(filename, ".json")) {
-            this.filename += ".json";
+        this.filename += ".json";
     }
     var self = this;
     this.loaded = false;
@@ -48,8 +47,7 @@ var JsonDB = function (filename, saveOnPush, humanReadable) {
     }
 
     return this;
-    };
-
+};
 JsonDB.prototype._processDataPath = function (dataPath) {
     if (dataPath === undefined || !dataPath.trim()) {
         throw new DataError("The Data Path can't be empty", 6);
@@ -68,10 +66,10 @@ JsonDB.prototype._getParentData = function (dataPath, create) {
     return new DBParentData(last, this._getData(path, create), this, dataPath);
 };
 /**
-    * Get the deta stored in the data base
-    * @param dataPath path leading to the data
-    * @returns {*}
-*/
+ * Get the deta stored in the data base
+ * @param dataPath path leading to the data
+ * @returns {*}
+ */
 JsonDB.prototype.getData = function (dataPath) {
     var path = this._processDataPath(dataPath);
     return this._getData(path);
@@ -90,8 +88,8 @@ JsonDB.prototype._getData = function (dataPath, create) {
 
 
         /**
-            * Find the wanted Data or create it.
-        */
+         * Find the wanted Data or create it.
+         */
         function findData(isArray) {
             isArray = isArray || false;
             if (data.hasOwnProperty(property)) {
@@ -149,11 +147,11 @@ JsonDB.prototype._getData = function (dataPath, create) {
 };
 
 /**
-    * Pushing data into the database
-    * @param dataPath path leading to the data
-    * @param data data to push
-    * @param override overriding or not the data, if not, it will merge them
-*/
+ * Pushing data into the database
+ * @param dataPath path leading to the data
+ * @param data data to push
+ * @param override overriding or not the data, if not, it will merge them
+ */
 JsonDB.prototype.push = function (dataPath, data, override) {
     override = override === undefined ? true : override;
 
@@ -186,9 +184,9 @@ JsonDB.prototype.push = function (dataPath, data, override) {
     }
 };
 /**
-    * Delete the data
-    * @param dataPath path leading to the data
-*/
+ * Delete the data
+ * @param dataPath path leading to the data
+ */
 JsonDB.prototype.delete = function (dataPath) {
     dataPath = JsonUtils.removeTrailingSlash(dataPath);
     var dbData = this._getParentData(dataPath, true);
@@ -196,23 +194,35 @@ JsonDB.prototype.delete = function (dataPath) {
         return;
     }
     dbData.delete();
-        
+    
     if (this.saveOnPush) {
         this.save();
     }
 };
+
 /**
-    * Reload the database from the file
-    * @returns {*}
-*/
+ * Javad Shafique
+ * Filters json with query
+ * @param dataPath path leading to the data
+ * @param query query string, object or array
+ * @returns {*}
+ */
+JsonDB.prototype.find = function (dataPath, query) {
+    return Query(this, dataPath, query)
+}
+
+/**
+ * Reload the database from the file
+ * @returns {*}
+ */
 JsonDB.prototype.reload = function () {
     this.loaded = false;
     return this.load();
 };
 /**
-    * Manually load the database
-    * It is automatically called when the first getData is done
-*/
+ * Manually load the database
+ * It is automatically called when the first getData is done
+ */
 JsonDB.prototype.load = function () {
     if (this.loaded) {
         return;
@@ -228,10 +238,10 @@ JsonDB.prototype.load = function () {
     }
 };
 /**
-    * Manually save the database
-    * By default you can't save the database if it's not loaded
-    * @param force force the save of the database
-*/
+ * Manually save the database
+ * By default you can't save the database if it's not loaded
+ * @param force force the save of the database
+ */
 JsonDB.prototype.save = function (force) {
     force = force || false;
     if (!force && !this.loaded) {
@@ -253,10 +263,5 @@ JsonDB.prototype.save = function (force) {
     }
 
 };
-
-JsonDB.prototype.find = function(dataPath, query){
-    return Query(this, dataPath, query);
-};
-
 module.exports = JsonDB;
 

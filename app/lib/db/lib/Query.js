@@ -7,7 +7,7 @@ var DataError = require("./Errors").DataError
 function Query(db, path, query){
     try {
         data = db.getData(path);
-        return data.filter(query))
+        return data.filter(query)
     } catch(err) {
         throw err;
         //throw new DataError("Path '" + path + "' does not exist", 5, err);
