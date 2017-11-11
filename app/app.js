@@ -2,6 +2,7 @@
 //Node NoSql database by (c) Javad Shafique
 //Require modules that are needed
 const express = require("express");
+const socketio = require("socket.io");
 const path = require("path");
 const logger = require("morgan");
 var fs = require("fs")
@@ -27,4 +28,6 @@ const port = data.port || 8080;
 //Api config
 app.use(logger('dev'));
 require("./lib/api.js")(app, obj)
+
+//listen with socket.io
 app.listen(port);
