@@ -11,7 +11,7 @@ var JsonUtils = require("./lib/utils");
 var DBParentData = require("./lib/DBParentData");
 var DatabaseError = require("./lib/Errors").DatabaseError;
 var DataError = require("./lib/Errors").DataError;
-var Query = require("./lib/Query").Query;
+var Query = require("./lib/Query");
 var mkdirp = require('mkdirp');
 var path = require('path');
 
@@ -255,7 +255,7 @@ JsonDB.prototype.save = function (force) {
 };
 
 JsonDB.prototype.find = function(dataPath, query){
-    return Query(this,dataPath,query);
+    return Query(this, dataPath, query);
 };
 
 module.exports = JsonDB;
