@@ -17,16 +17,6 @@ class database:
         self.port = port
         self.username = username
         self.password = password
-        true = True
-        false = False
-        check = requests.get("http://" + host + ":"+ str(port) + "/cp?user="+username + "&pass="+password)
-        print(check.text)
-        if check.text == "true":
-            print("Correct Pass")
-        elif check.text == "false":
-            print("Wrong password/username")
-        else:
-            print("Could not connect")
 
     def get(self, path):
         obj = get_obj(self.username, self.password, "getData", path)
