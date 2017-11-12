@@ -1,0 +1,3 @@
+#10000 write-read-deletes on a 
+# macbook pro 2008 with OSX el-Captain 8GB ram with a 2.4 GHz Intel Core 2 Duo
+29.50948301599965

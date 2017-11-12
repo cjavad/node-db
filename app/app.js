@@ -26,8 +26,7 @@ if(data.type == "express"){
     //Express config
     const app = express();
 
-    //Api config
-    app.use(logger(app));
+    //api config
     require("./lib/api.js")(app, db)
     //listen with expressjs
     app.listen(port);
