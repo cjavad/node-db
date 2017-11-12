@@ -24,7 +24,6 @@
   },
   "homepage": "https://github.com/JavadSM/node-db#readme",
   "dependencies": {
-    "colors": "^1.1.2",
     "crypto": "^1.0.1",
     "express": "^4.16.2",
     "mkdirp": "^0.5.1",

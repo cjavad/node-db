@@ -17,7 +17,7 @@ function ithash(string){
     return crypto.createHash("sha256").update(string).digest("hex")
 }
 
-function check(username, string){
+function check(username, password){
     if(ithash(string) === get() && username === user){
         return true;
     }

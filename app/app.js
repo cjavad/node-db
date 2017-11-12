@@ -4,8 +4,9 @@
 
 const path = require("path");
 const auth = require("./lib/auth.js")
-const db = require("./lib/db.js");
+const db = require("./lib/database.js");
 var fs = require("fs")
+
 
 if(process.argv.length < 3){
     console.log("You will need to specify a config file")
@@ -36,14 +37,16 @@ if(data.type == "express"){
     var server = net.createServer(function(socket) {
         socket.on("data", function(data){
             try {
-                raw = data.toString();
-                res = JSON.stringify(db.parse(raw));
+                var raw = data.toString();
+                var res = JSON.stringify(db.parse(raw));
                 socket.write(res);
             } catch (err) {
-                if(err.name == "TypeError" && res === undefined){
+                if(err.name == "TypeError" && res !== undefined){
+                    console.log(err);
+                    socket.write("ERROR");
+                }else if(res === undefined){
                     socket.write("OK");
                 } else {
-                    console.log(res)
                     console.log(err);
                     socket.write("Error");
                 }
