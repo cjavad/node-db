@@ -1,26 +1,28 @@
 //manage database and query!
 //Database config
+var colors = require('colors/safe');
 const JsonDB = require("./db/index.js");
 const auth = require("./auth.js");
 const db = new JsonDB("db", true, true)
 
-//for socket
+//Parse json and inject database with data
 function parse_body(json){
     body = JSON.parse(json)
     if(
         !(body.hasOwnProperty("path") || body.hasOwnProperty("command") || body.hasOwnProperty("username") || body.hasOwnProperty("password"))
     ){
-        console.log("PROP_ERR",body)
-        return false;
+        console.log(colors.red("PROP_ERR"), colors.yellow(body))
+        return "PROP_ERR";
+    
     } else if(!body.command in ["getData", "push", "delete"]){
-        console.log("COM_ERR", body)
-        return false;
+        console.log(colors.red("COM_ERR"), colors.yellow(body))
+        return "COM_ERR";
     }
 
     if(!auth.check(body.username, body.password)){
         return "Wrong password/username"
-        console.log("AUTH_ERR", body)
-        return false;
+        console.log(colors.red("AUTH_ERR"), colors.yellow(body))
+        return "AUTH_ERR";
 
     } else if(body.command === "getData" || body.command ===  "delete"){
         console.log(body.command.toUpperCase());
@@ -28,18 +30,19 @@ function parse_body(json){
             return db[body.command](body.path)
         } catch (error) {
             if(error.name === "DataError"){
-                return "Path does not exist"
+                console.log(colors.red("PATH_ERR"), colors.yellow(body))
+                return "PATH_ERR"
             } else {
                 console.log(error.name);
                 return error.name;
             }
         }
     } else if((body.hasOwnProperty("data") || body.hasOwnProperty("override")) && body.command === "push"){
-        console.log(body.command.toUpperCase());
+        console.log(colors.green(body.command.toUpperCase()));
         return db[body.command](body.path, body.data, body.override);
     } else {
-        console.log("ERR", body)
-        return false;
+        console.log(colors.red("RUN_ERR"), colors.yellow(body))
+        return "RUN_ERR";
     }
 }
 

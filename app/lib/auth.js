@@ -1,5 +1,5 @@
 //lib/auth.js
-const crypto = require("crypto-js");
+const crypto = require("crypto");
 
 //Simple HASH functions
 
@@ -14,7 +14,7 @@ function config(username, password){
 }
 
 function ithash(string){
-    return crypto.SHA256(string).toString()
+    return crypto.createHash("sha256").update(string).digest("hex")
 }
 
 function check(username, string){

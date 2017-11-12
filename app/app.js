@@ -21,13 +21,13 @@ const port = data.port || 3434;
 if(data.type == "express"){
     //if express
     const express = require("express");
-    const logger = require("morgan");
+    const logger = require("./lib/log.js");
     //db config
     //Express config
     const app = express();
 
     //Api config
-    app.use(logger('dev'));
+    app.use(logger(app));
     require("./lib/api.js")(app, db)
     //listen with expressjs
     app.listen(port);

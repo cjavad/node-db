@@ -24,12 +24,13 @@
   },
   "homepage": "https://github.com/JavadSM/node-db#readme",
   "dependencies": {
-    "crypto-js": "^3.1.9-1",
+    "colors": "^1.1.2",
+    "crypto": "^1.0.1",
     "express": "^4.16.2",
+    "mkdirp": "^0.5.1",
     "morgan": "^1.9.0",
+    "net": "^1.0.2",
     "path": "^0.12.7",
-    "prompt": "^1.0.0",
-    "raw-socket": "^1.5.1",
-    "socket.io": "^2.0.4"
+    "winston": "^2.4.0"
   }
 }
