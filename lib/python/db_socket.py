@@ -16,20 +16,22 @@ class database:
         self.socket = socket.create_connection((host, port))
     
     def get(self, path):
-        obj = bytes(str(get_obj(self.username, self.password, "getData", path)), "utf-8")
+        obj = bytes(json.dumps(get_obj(self.username, self.password, "getData", path)), "utf-8")
         self.socket.send(obj)
-        data = self.socket.recv(1024).decode("utf-8")
+        d = self.socket.recv(1024).decode("utf-8")
         try:
-            data = json.loads(data)
-        return 
+            data = json.loads(d)
+            return data
+        except:
+            return d
 
     def push(self, path, data, override = False):
-        obj = bytes(str(json.dumps(get_obj(self.username, self.password, "push", path, data, override))), "utf-8")
+        obj = bytes(json.dumps(get_obj(self.username, self.password, "push", path, data, override)), "utf-8")
         self.socket.send(obj)
         return self.socket.recv(1024).decode("utf-8")
 
-    def get(self, path):
-        obj = bytes(str(get_obj(self.username, self.password, "delete", path)), "utf-8")
+    def delete(self, path):
+        obj = bytes(json.dumps(get_obj(self.username, self.password, "delete", path)), "utf-8")
         self.socket.send(obj)
         return self.socket.recv(1024).decode("utf-8")
 

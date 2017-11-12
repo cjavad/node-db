@@ -26,41 +26,8 @@ module.exports = function(app, db){
     });
 
     app.get("/db", (req, res) => {
-        var False = false //support for python
-        var body = JSON.parse(req.query.body);
-
-        if(!("key" in body || "path" in body || "command" in body)){
-            return false;
-        } else if(!body.command in ["getData", "push", "delete"]){
-            return false;
-        }
-        if(!auth.check(body.username, body.password)){
-            res.send("Wrong password/username");
-            console.log(body)
-            return false;
-        } else if(body.command === "getData" || body.command ===  "delete"){
-            console.log(body.command.toUpperCase());
-            try {
-                var sendt = db[body.command](body.path)
-                res.send(sendt);
-            } catch (error) {
-                if(error.name === "DataError"){
-                    res.send("Path does not exist")
-                } else {
-                    console.log(error.name)
-                    res.send(error.name)
-                }
-            }
-        } else if(("data" in body || "override" in body) && body.command === "push"){
-            console.log(body.command.toUpperCase());
-            var sendt = db[body.command](body.path, body.data, body.override);
-            res.send(sendt)
-        } else {
-            res.sendStatus(403);
-            return false;
-        }
-        
-        
+        res.send(db.parse(req.query.body));
+        return true;
     });
 }
 

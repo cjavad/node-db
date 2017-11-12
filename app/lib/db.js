@@ -5,18 +5,21 @@ const auth = require("./auth.js");
 const db = new JsonDB("db", true, true)
 
 //for socket
-function parse_body(body){
-    var body = JSON.parse(body);
-
-    if(!("key" in body || "path" in body || "command" in body || "username" in body || "password" in body)){
+function parse_body(json){
+    body = JSON.parse(json)
+    if(
+        !(body.hasOwnProperty("path") || body.hasOwnProperty("command") || body.hasOwnProperty("username") || body.hasOwnProperty("password"))
+    ){
+        console.log("PROP_ERR",body)
         return false;
     } else if(!body.command in ["getData", "push", "delete"]){
+        console.log("COM_ERR", body)
         return false;
     }
 
     if(!auth.check(body.username, body.password)){
         return "Wrong password/username"
-        console.log(body)
+        console.log("AUTH_ERR", body)
         return false;
 
     } else if(body.command === "getData" || body.command ===  "delete"){
@@ -31,10 +34,11 @@ function parse_body(body){
                 return error.name;
             }
         }
-    } else if(("data" in body || "override" in body) && body.command === "push"){
+    } else if((body.hasOwnProperty("data") || body.hasOwnProperty("override")) && body.command === "push"){
         console.log(body.command.toUpperCase());
         return db[body.command](body.path, body.data, body.override);
     } else {
+        console.log("ERR", body)
         return false;
     }
 }

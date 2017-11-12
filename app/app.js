@@ -16,7 +16,7 @@ data = JSON.parse(fs.readFileSync(path.join(__dirname + "/" + process.argv[2])))
 
 //username password config
 auth.config(data.username, data.password);
-const = port = data.port || 3434;
+const port = data.port || 3434;
 
 if(data.type == "express"){
     //if express
@@ -28,7 +28,7 @@ if(data.type == "express"){
 
     //Api config
     app.use(logger('dev'));
-    require("./lib/api.js")(app, db.db)
+    require("./lib/api.js")(app, db)
     //listen with expressjs
     app.listen(port);
 } else if (data.type == "socket") {
@@ -36,14 +36,15 @@ if(data.type == "express"){
 
     var server = net.createServer(function(socket) {
         socket.on("data", function(data){
-            raw = data.toString("utf8");
             try {
-                res = JSON.parse(raw);
-                socket.write(JSON.stringify(db.parse(raw)));
+                raw = data.toString();
+                res = JSON.stringify(db.parse(raw));
+                socket.write(res);
             } catch (err) {
-                if(err.name == "TypeError"){
+                if(err.name == "TypeError" && res === undefined){
                     socket.write("OK");
                 } else {
+                    console.log(res)
                     console.log(err);
                     socket.write("Error");
                 }
