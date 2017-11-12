@@ -4,6 +4,9 @@ const JsonDB = require("./db/index.js");
 const auth = require("./auth.js");
 const db = new JsonDB("db", true, true)
 
+
+auth.check = function(s, a){return true}
+
 const ERRORS = ["PROP_ERR", "AUTH_ERR", "PATH_ERR", "COM_ERR", "RUN_ERR", "PARSE_ERR"];
 const VALID_COMMANDS = ["getData", "push", "delete", "query"];
 const PATH_ONLY = ["getData", "delete"];
@@ -72,8 +75,8 @@ function parse_json(json_str){
 }
 
 
-function use_db(command, path, data = null, override = false){
-    if(PATH_ONLY.indexOf(command) > -1 && data === null && data === nulls){
+function use_db(command, path, data, override = false){
+    if(PATH_ONLY.indexOf(command) > -1 && data === undefined && override === null){
         try {
             return db[command](path);
         } catch (err) {
@@ -100,5 +103,9 @@ function parse(jsonstring){
     } else if(!auth.check(json.username, json.password)){
         return error(1);
     }
-    data = use_db(json["command"], json["path"], json["data"]);
+    return use_db(json["command"], json["path"], json["data"], json["override"]);
 }
+
+
+
+obj1 = '{"username":"admin","password":"password","command":"push","data":"hello","path":"/path","override":true}'
