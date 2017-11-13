@@ -4,7 +4,7 @@
 
 const path = require("path");
 const auth = require("./lib/auth.js")
-const db = require("./lib/database.js");
+const db = require("./lib/db.js");
 var fs = require("fs")
 
 
@@ -45,6 +45,7 @@ if(data.type == "express"){
                     console.log(err);
                     socket.write("ERROR");
                 }else if(res === undefined){
+                    console.log(err)
                     socket.write("OK");
                 } else {
                     console.log(err);
