@@ -109,3 +109,8 @@ function parse(jsonstring){
 
 
 obj1 = '{"username":"admin","password":"password","command":"push","data":"hello","path":"/path","override":true}'
+
+obj2 = '{"username":"admin","password":"password","command":"get",path":"/path"}'
+
+console.log(parse(obj1))
+console.log(parse(obj2))
