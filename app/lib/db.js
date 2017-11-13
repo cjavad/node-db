@@ -10,8 +10,6 @@ const ERRORS = ["PROP_ERR", "AUTH_ERR", "PATH_ERR", "COM_ERR", "RUN_ERR", "PARSE
 const VALID_COMMANDS = ["getData", "push", "delete", "query"];
 /**
  * @constant VALID_COMMANDS is an array with all valid commands
- * @constant PATH_ONLY is an a array with all commands that only require a path
- * @constant DATA is an array specifiying commands that also use data
  * @constant ERRORS
  * PROP_ERR (0) is given if not enough properties is given
  * AUTH_ERR (1) is given if a wrong username/password is given

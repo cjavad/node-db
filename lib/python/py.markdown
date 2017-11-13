@@ -2,7 +2,7 @@ used as following
 
 ``` python
 #!bin/python3
-from dblib import database
+from __init__ import db_express as database # if you have set your database to express else import db_socket
 #connect to database
 
 host = "localhost"

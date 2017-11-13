@@ -24,11 +24,6 @@ module.exports = function(app, db){
         }
         return true
     });
-
-    app.get("/db", (req, res) => {
-        res.send(db.parse(req.query.body));
-        return true;
-    });
 }
 
 /* Example endpoint body object

@@ -18,8 +18,6 @@ function ithash(string){
 }
 
 function check(username, password){
-    console.log(username, user);
-    console.log(password, pass)
     if(password === pass && username === user){
         return true;
     } else {

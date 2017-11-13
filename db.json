@@ -1,8 +1,4 @@
 {
-    "hello": "wordls",
-    "path": {
-        "to": {
-            "object": "an objcet"
-        }
-    }
+    "path": "hello",
+    "p": "HELLO WORLd"
 }

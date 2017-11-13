@@ -22,13 +22,19 @@ const port = data.port || 3434;
 if(data.type == "express"){
     //if express
     const express = require("express");
-    const logger = require("./lib/log.js");
     //db config
     //Express config
     const app = express();
 
     //api config
     require("./lib/api.js")(app, db)
+
+    app.get("/db", (req, res) => {
+        res.status(200);
+        res.send(JSON.stringify(db.parse(req.query.body)));
+        return true;
+    });
+
     //listen with expressjs
     app.listen(port);
 } else if (data.type == "socket") {
