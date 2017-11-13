@@ -1,6 +1,6 @@
 //new json parser
 //import modules that are required
-const JsonDB = require("./db/index.js");
+const JsonDB = require("./database")
 const auth = require("./auth.js");
 const db = new JsonDB("db", true, true)
 const colors = require("colors/safe")

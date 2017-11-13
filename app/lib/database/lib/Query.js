@@ -4,9 +4,8 @@
 var DataError = require("./Errors").DataError
 
 
-function Query(db, path, query){
+function Query(data, query){
     try {
-        data = db.getData(path);
         return data.filter(query)
     } catch(err) {
         throw err;
