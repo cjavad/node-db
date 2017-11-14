@@ -209,7 +209,7 @@ JsonDB.prototype.delete = function (dataPath) {
  */
 JsonDB.prototype.find = function (dataPath, query) {
     var data = this.getData(dataPath);
-    return Query(data, query)
+    return Query(data, query);
 }
 
 /**
