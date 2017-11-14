@@ -36,7 +36,12 @@ build/Release
 node_modules/
 jspm_packages/
 
+#Python cache
 __pycache__
+*.pyc
+
+#macos files
+.DS_Store
 
 # Typescript v1 declaration files
 typings/
