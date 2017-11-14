@@ -45,13 +45,13 @@ if(data.type == "express"){
             try {
                 var raw = data.toString();
                 var res = JSON.stringify(db.parse(raw));
+                //Log command
                 socket.write(res);
             } catch (err) {
                 if(err.name == "TypeError" && res !== undefined){
                     console.log(err);
                     socket.write("ERROR");
                 }else if(res === undefined){
-                    console.log(err)
                     socket.write("OK");
                 } else {
                     console.log(err);
@@ -60,6 +60,11 @@ if(data.type == "express"){
             }
         })
     });
-    
+
+    server.on("connection", function(socket){
+        //On connection log ip and port
+        console.log(db.c.yellow("Connection from"), db.c.rainbow(socket.remoteAddress + ":" + socket.remotePort));
+    });
+
     server.listen(port, '127.0.0.1');
 }

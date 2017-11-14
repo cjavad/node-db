@@ -29,6 +29,22 @@ function error(error_num, body = undefined){
     }
 }
 
+function log_command(command){
+    if(VALID_COMMANDS.indexOf(command) > -1){
+        if(command === "push"){
+            console.log(colors.green(command));
+        } else if (command === "getData" || command === "query"){
+            console.log(colors.blue(command));
+        } else if (command === "delete"){
+            console.log(colors.red(command));
+        } else {
+            return false;
+        }
+    } else {
+        return false;
+    }
+}
+
 
 //parse and check json
 function parse_json(json_str){
@@ -74,6 +90,7 @@ function parse(jsonstring){
     //check username/password 
     else if(auth.check(json.username, json.password)){
         //return database
+        log_command(json.command);
         return use_db(json);
     } else {
         //else return AUTH_ERR
@@ -84,5 +101,6 @@ function parse(jsonstring){
 module.exports = {
     db:db,
     parse:parse,
-    error:error
-}
+    error:error,
+    c:colors
+};
