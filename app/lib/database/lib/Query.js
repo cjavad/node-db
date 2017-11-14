@@ -1,25 +1,61 @@
 /**
  * Copyrigth (C) 2017 Javad Shafique
 */
+var Eval = require("./eval.js");
 var DataError = require("./Errors").DataError
+var _ = require("../../low");
+var parser = new Parser({operators:{'in':true}});
 
-
-function Query(data, query){
-    try {
-        return data.filter(query)
-    } catch(err) {
-        throw err;
-        //throw new DataError("Path '" + path + "' does not exist", 5, err);
-    }
+function Query(){
+  return this;
 }
 
+
+
+Query.prototype.findKey = function(obj, value, last = false){
+  if(last){
+    return _.findLastKey(obj, function(o){
+      return o === value;
+    });
+  } else {
+    return _.findKey(obj, function(o){
+      return o === value;
+    });
+  }
+}
+
+
+
+
 /**
- * Object Filter Protype
+ * 
+ * @param {*} collection is an collection of objects 
+ * @param {*} query is a query like this {key:"pants", operator:" <=", "to":"value to match"}
+ * @param {*} last 
+ */
+
+
+Query.prototype.find = function(collection, query, last = false){
+  if(last){
+    return _.findLast(collection, function(o){
+      
+    });
+  } else {
+    return _.find(collection, function(o){
+      return o[query.key] 
+      });
+  }
+}
+
+
+
+/**
+ * Object Filter Prototype
  * filters json by keywords
  * see example
  */
 Object.prototype.filter =  function(val) {
-    obj = this; //set obj to this
+    obj = this;
     var result = Object.keys(obj).reduce(function(r, e) {
       if (e.toLowerCase().indexOf(val) != -1) {
         r[e] = obj[e];
@@ -37,12 +73,5 @@ Object.prototype.filter =  function(val) {
     return result;
 }
 
-
-/**
- * Example Query
- *db.push("/data", {"big":{"num":"1"}, {"hello":"2"}})
- *db.find("/data", "hello")
- *=> {"hello":"2"}
- */
 
  module.exports = Query;

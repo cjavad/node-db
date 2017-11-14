@@ -26,9 +26,11 @@
   "dependencies": {
     "colors": "^1.1.2",
     "crypto": "^1.0.1",
+    "expr-eval": "^1.2.0",
     "express": "^4.16.2",
     "install": "^0.10.1",
     "lowdash": "^1.1.0",
+    "mathjs": "^3.16.5",
     "mkdirp": "^0.5.1",
     "morgan": "^1.9.0",
     "net": "^1.0.2",

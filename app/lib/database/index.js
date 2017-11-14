@@ -8,7 +8,7 @@ var FS = require('fs');
 var events = require('events');
 var JsonUtils = require("./lib/utils");
 var DBParentData = require("./lib/DBParentData");
-var Query = require("./lib/Query")
+var Query = require("./lib/Query");
 var DatabaseError = require("./lib/Errors").DatabaseError;
 var DataError = require("./lib/Errors").DataError;
 var mkdirp = require('mkdirp');
@@ -207,7 +207,7 @@ JsonDB.prototype.delete = function (dataPath) {
  * @param query query string, object or array
  * @returns {*}
  */
-JsonDB.prototype.find = function (dataPath, query) {
+JsonDB.prototype.query = function (dataPath, query) {
     var data = this.getData(dataPath);
     return Query(data, query);
 }
@@ -264,5 +264,8 @@ JsonDB.prototype.save = function (force) {
     }
 
 };
+
+
+
 module.exports = JsonDB;
 
