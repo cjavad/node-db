@@ -6,46 +6,56 @@ var DataError = require("./Errors").DataError
 var _ = require("lodash");
 
 
-const VALID_OPERATORS = ["===", "==", "!=", "!==", "in", "!", ">", "<", ">=", "<="];
+const VALID_OPERATORS = ["/", "+", "-", "*", "**"];
 
-var example_query = {operator:"===", key:"key", value:"tocomparewith"}
 
 class Query {
-  static find(obj, query){
-    var l = [];
-    var i;
-    _.forIn(o, function(value, key) {
-      if(typeof value === "object"){
-        
-        _.forIn(value, function(v, k){
-          console.log(v, k);
-        });
-      } else {
-        l.push([key, value]);
-      }
-    });
+  constructor(){
+    //WIP
   }
-
+  //fun zipping method
   static zip(){
-    out = [];
-    for (let i = 0; i < arguments.length; i++) {
+    var out = [];
+    if(VALID_OPERATORS.indexOf(arguments[arguments.length - 1]) > -1){
+      var l = arguments.length - 1;
+      var op = arguments[arguments.length - 1]
+      var state = true;
+    } else {
+      var l = arguments.length;
+      var state = false;
+    }
+    for (let i = 0; i < l; i++) {
       const element = arguments[i];
         out.push(...element);
+    }
+    if(state){
+      return out.join(op);
     }
     return out;
   }
 }
 
-o = {
-  this:"is",
-  an:"object",
-  with:{
-    more:"objects",
-    because:true
-  }
+
+Query.prototype.lexer = function(obj, array = false, spread = false){
+  var l = [];
+  Object.entries(obj).forEach(
+    ([key, value]) => {
+      if(typeof value == "object"){
+        if(spread && array){
+          l.push(...lexer(value, array, spread));
+        } else {
+          l.push(lexer(value, array, false));
+        }
+      } else {
+        if(array){
+          l.push([key, value])
+        } else {
+          l.push(JSON.parse('{"' + key + '":"' + value +'"}'));
+        }
+      }
+    }
+  );
+  return l;
 }
-
-
-
 
 module.exports = Query;
