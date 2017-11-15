@@ -26,11 +26,15 @@ if(data.type == "express"){
     //Express config
     const app = express();
 
-    //api config
-    require("./lib/api.js")(app, db)
+    //CORS headers
+    app.use(function(req, res, next){
+        res.header("Access-Control-Allow-Origin", "*");
+        res.header("Access-Control-Allow-Headers", "*, *, *, Accept");
+        next();
+    });
 
     app.get("/db", (req, res) => {
-        res.status(200);
+        console.log()
         res.send(JSON.stringify(db.parse(req.query.body)));
         return true;
     });

@@ -51,7 +51,7 @@ function parse_json(json_str){
     try {
         body = JSON.parse(json_str);
         //if not valid json return false
-    } catch(_){console.log(_); return error(5); }
+    } catch(_){ return error(5, json_str); }
     //check if keys exist
     var check1 = (body["path"] === undefined || body["command"] == undefined || body["username"] == undefined || body["password"] === undefined);
     var check2 = !(VALID_COMMANDS.indexOf(body["command"]) > -1);

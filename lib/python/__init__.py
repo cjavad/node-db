@@ -55,10 +55,6 @@ class db_express:
         self.port = port
         self.username = username
         self.password = password
-        true = True
-        false = False
-        check = self.req("http://" + host + ":"+ str(port) + "/cp?user="+username + "&pass="+password)
-        print(check)
     
     def req(self, url):
         return requests.get(url).text

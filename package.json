@@ -4,9 +4,8 @@
   "description": "A noSql database in node",
   "main": "app.js",
   "scripts": {
-    "test": "sudo node app.js"
+    "start": "cd app && node app.js db.conf"
   },
-  "bin": "app.js",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/JavadSM/node-db.git"
@@ -36,6 +35,5 @@
     "morgan": "^1.9.0",
     "net": "^1.0.2",
     "path": "^0.12.7",
-    "winston": "^2.4.0"
   }
 }
