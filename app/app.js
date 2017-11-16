@@ -56,6 +56,7 @@ if(data.type == "express"){
                     console.log(err);
                     socket.write("ERROR");
                 }else if(res === undefined){
+                    //console.log(db.c.bold(db.c.red(err)), db.c.yellow(raw));
                     socket.write("OK");
                 } else {
                     console.log(err);

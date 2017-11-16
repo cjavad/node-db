@@ -1,12 +1,20 @@
 <?php
-function get_obj($username, $password, $command, $path, $data = FALSE, $override = FALSE){
-    if($data == FALSE && $override == FALSE){
+//Empty password objects
+$GLOBALS["user"] = "";
+$GLOBALS["pass"] = "";
+
+function get_obj($command, $path, $data = NULL, $override = NULL){
+    $username = $GLOBALS["user"];
+    $password = $GLOBALS["pass"];
+    if($data == NULL && $override == NULL){
+        $obj = new stdClass();
         $obj->username = $username;
         $obj->password = $password;
         $obj->command = $command;
         $obj->path = $path;
         return $obj;
-    } elseif ($data != FALSE && $override != FALSE) {
+    } else {
+        $obj = new stdClass();
         $obj->username = $username;
         $obj->password = $password;
         $obj->command = $command;
@@ -15,25 +23,32 @@ function get_obj($username, $password, $command, $path, $data = FALSE, $override
         $obj->override = $override;
         return $obj;
     }
+    echo "ERROR";
 }
 
-
-class db {
-    public function __contruct($host, $port, $username, $password){
-        $this->self["username"] = $username;
-        $this->self["password"] = $password;
-        $this->self["socket"] = socket_create(AF_INET, SOCK_STREAM, SOL_TCP);
-        socket_connect($this->self["socket"], $host, $port);
-    }
-    public function get($path) {
-        $json = json_encode(get_obj($this->self["username"], $this->self["password"], "getData", $path));
-        socket_write($this->self["socket"], $json, strlen($json));
-        $out = socket_read($this->self["socket"], 2048);
-        return $out;
-    }
+function init($host, $port, $username, $password){
+    $GLOBALS["user"] = $username;
+    $GLOBALS["pass"] = $password;
+    $socket = socket_create(AF_INET, SOCK_STREAM, SOL_TCP);
+    socket_connect($socket, $host, $port);
+    return $socket;
 }
 
-$db = new db("localhost", 3434, "admin", "password");
-echo $db->get("/");
+function get($socket,$path) {
+    $json = json_encode(get_obj("getData", $path));
+    socket_write($socket, $json, strlen($json));
+    return socket_read($socket, 2048);
+}
 
+function delete($socket,$path) {
+    $json = json_encode(get_obj("delete", $path));
+    socket_write($socket, $json, strlen($json));
+    return socket_read($socket, 2048);
+}
+
+function push($socket, $path, $data, $override){
+    $json = json_encode(get_obj("push", $path, $data, $override));
+    socket_write($socket, $json, strlen($json));
+    return socket_read($socket, 2048);
+}
 ?>
