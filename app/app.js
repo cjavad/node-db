@@ -15,6 +15,11 @@ if(process.argv.length < 3){
 
 data = JSON.parse(fs.readFileSync(path.join(__dirname + "/" + process.argv[2])))
 
+//oncougth error handler
+process.on('uncaughtException', function (err) {
+    console.log(db.c.bgYellow(db.c.black("Node NOT Exiting...")), db.c.red(db.c.bold(err)));
+  });
+
 //username password config
 auth.config(data.username, data.password);
 const port = data.port || 3434;
@@ -71,5 +76,5 @@ if(data.type == "express"){
         console.log(db.c.yellow("Connection from"), db.c.rainbow(socket.remoteAddress + ":" + socket.remotePort));
     });
 
-    server.listen(port, '127.0.0.1');
+    server.listen(port, '0.0.0.0');
 }

@@ -11,7 +11,7 @@ def get_obj(username, password, command, path, data = None, override = None):
         return {"username":username,"password":password,"command":command,"path":path}
 
 
-class db_socket:
+class db:
     def __init__(self, host, port, username, password, buffer = 1024):
         self.username = username
         self.password = password
@@ -27,11 +27,6 @@ class db_socket:
             return data
         except:
             return d
-
-    def find(self, path, query):
-        obj = bytes(json.dumps(get_obj(self.username, self.password, "find", path, query, False)), "utf-8")
-        self.socket.send(obj)
-        return self.socket.recv(self.buffer).decode("utf-8")
 
     def push(self, path, data, override = False):
         obj = bytes(json.dumps(get_obj(self.username, self.password, "push", path, data, override)), "utf-8")
@@ -49,6 +44,8 @@ class db_socket:
         else:
             return True
 
+
+#Legacy support
 class db_express:
     def __init__(self, host, port,username, password):
         self.host = host
@@ -58,7 +55,6 @@ class db_express:
     
     def req(self, url):
         return requests.get(url).text
-
 
     def get(self, path):
         obj = get_obj(self.username, self.password, "getData", path)
@@ -70,18 +66,13 @@ class db_express:
         url = "http://" + self.host + ":" + str(self.port) + "/db?body=" + json.dumps(obj)
         return self.req(url)
 
-    def find(self, path, query):
-        obj = get_obj(self.username, self.password, "find", path, query, False)
-        url = "http://" + self.host + ":" + str(self.port) + "/db?body=" + json.dumps(obj)
-        return self.req(url)
-
     def delete(self, path):
         obj = get_obj(self.username, self.password, "delete", path)
         url = "http://" + self.host + ":" + str(self.port) + "/db?body=" + json.dumps(obj)
         return self.req(url)
 
     def checkpath(self, path):
-        if self.get(path) == "Path does not exist":
+        if self.get(path) == "PATH_ERR":
             return False
         else:
             return True

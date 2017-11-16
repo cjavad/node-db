@@ -68,7 +68,7 @@ function use_db(body){
         try{
             return db[body.command](body.path);
         } catch(_){
-            return _.name === "DataError" ? error(2):error(4);
+            return _.name === "DataError" ? error(2, body):error(4, body);
         }
     } else if(body["command"] === "push"){
         //if you want to push data to database
