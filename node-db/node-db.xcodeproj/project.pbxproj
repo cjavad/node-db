@@ -18,11 +18,12 @@
 /* Begin PBXLegacyTarget section */
 		6D7F22181FBECE870047C174 /* node-db */ = {
 			isa = PBXLegacyTarget;
-			buildArgumentsString = "$(ACTION)";
+			buildArgumentsString = "$(SRCROOT)/app/app.js";
 			buildConfigurationList = 6D7F221B1FBECE870047C174 /* Build configuration list for PBXLegacyTarget "node-db" */;
 			buildPhases = (
 			);
 			buildToolPath = /usr/local/bin/node;
+			buildWorkingDirectory = "~/Documents/node-db";
 			dependencies = (
 			);
 			name = "node-db";
@@ -35,6 +36,9 @@
 		6D7F22141FBECE870047C174 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
+				KnownAssetTags = (
+					New,
+				);
 				LastUpgradeCheck = 0820;
 				ORGANIZATIONNAME = "Javad Shafique";
 				TargetAttributes = {
