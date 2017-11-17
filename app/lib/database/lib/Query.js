@@ -3,7 +3,6 @@
  */
 var Eval = require("./eval.js");
 var DataError = require("./Errors").DataError
-var _ = require("lodash");
 
 
 const VALID_OPERATORS = ["/", "+", "-", "*", "**"];
@@ -17,23 +16,22 @@ class Query {
     static zip(){
         var out = [];
         if(VALID_OPERATORS.indexOf(arguments[arguments.length - 1]) > -1){
-            var l = arguments.length - 1;
-            var op = arguments[arguments.length - 1]
+            var op = arguments.pop();
             var state = true;
         } else {
-            var l = arguments.length;
             var state = false;
         }
-        for (let i = 0; i < l; i++) {
+        for (let i = 0; i < arguments.length; i++) {
             const element = arguments[i];
             out.push(...element);
         }
         if(state){
-            return out.join(op);
+            return eval(out.join(op));
         }
         return out;
     }
 }
+
 
 
 Query.prototype.lexer = function(obj, array = false, spread = false){
@@ -68,10 +66,11 @@ Query.prototype.lexer = function(obj, array = false, spread = false){
     return l;
 }
 
+
 //search for key by value
 Query.prototype.searchkeybyvalue = function(obj, value){
     //lex object into an array
-    lexed = this.lexer(obj, true, true);
+    var lexed = this.lexer(obj, true, true);
     //loop over arrays
     for(var i = 0; lexed.length; i++){
         o = lexed[i];
@@ -90,7 +89,7 @@ Query.prototype.searchkeybyvalue = function(obj, value){
 //search for value by key
 Query.prototype.searchvaluebykey = function(obj, key){
     //lex object into an array
-    lexed = this.lexer(obj, true, true);
+    var lexed = this.lexer(obj, true, true);
     //loop over arrays
     for(var i = 0; lexed.length; i++){
         o = lexed[i];
@@ -106,9 +105,20 @@ Query.prototype.searchvaluebykey = function(obj, key){
     return undefined;
 }
 
+
+Query.prototype.find = function(obj, query, build = []){
+    var lexed = this.lexer(obj, true, false);
+    
+}
+
 var q = new Query();
 
+
+
+
 obj = {data:"hello", object:{inner:true}}
+
+console.log(new Query().lexer(obj));
 
 console.log(q.searchkeybyvalue(obj, true));
 
