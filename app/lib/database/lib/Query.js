@@ -154,15 +154,12 @@ Query.prototype.find_one = function(obj, query){
   }
 }
 
-
+/* Tests
 var q = new Query();
-
-
-
-
 obj = {data:"hello", object:{inner:true}, obj:{inner:true}}
 
 console.log(q.find_one(obj, {inner:true}));
 console.log(q.find(obj, {inner:true}));
+*/
 
 module.exports = Query;

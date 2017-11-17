@@ -209,7 +209,7 @@ JsonDB.prototype.delete = function (dataPath) {
 JsonDB.prototype.find = function(dataPath, query){
   data = this.getData(dataPath);
   if(typeof data === "object"){
-    return new Query.find(data, query);
+    return new Query().find(data, query);
   } else {
     throw new DataError("Data from", dataPath, "is not an object");
   }
@@ -225,7 +225,7 @@ JsonDB.prototype.find = function(dataPath, query){
 JsonDB.prototype.find_one = function(dataPath, query){
   data = this.getData(dataPath);
   if(typeof data === "object"){
-    return new Query.find_one(data, query);
+    return new Query().find_one(data, query);
   } else {
     throw new DataError("Data from", dataPath, "is not an object");
   }

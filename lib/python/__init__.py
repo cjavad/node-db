@@ -2,7 +2,7 @@ import json
 import socket
 
 def get_obj(username, password, command, path, data = None, override = None):
-    if not command in ["push", "getData", "delete", "find"]:
+    if not command in ["push", "getData", "delete", "find", "find_one"]:
         return False
     elif data and override != None:
         return {"username":username,"password":password,"command":command,"path":path,"data":data,"override":override}
