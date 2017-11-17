@@ -3,7 +3,7 @@
  */
 var Eval = require("./eval.js");
 var DataError = require("./Errors").DataError
-
+var _ = require("lodash");
 
 const VALID_OPERATORS = ["/", "+", "-", "*", "**"];
 
@@ -105,30 +105,64 @@ Query.prototype.searchvaluebykey = function(obj, key){
     return undefined;
 }
 /*
-* 
+* example query
+*
+* {hello: "hello"}
 *
 * @argument obj is an json object
 * @argument query an query object see example
 */
 
+//loops over object to return collection
 Query.prototype.find = function(obj, query){
-    var lexed = Object.entries(obj);
-    
-    
+  //set vars result, key and res
+  var results = []; //out
+  var key; //current key
+  //response from this.find_one
+  var res = results.push(this.find_one(obj, query));
+  do {
+    //do this
+    //set key
+    key = Object.keys(res)[0];
+    //delete ket from object
+    delete obj[key];
+    //check if response if object
+    if(typeof res === "object"){
+      //if it is push to out
+      results.push(res);
+    }
+    //get new response
+    res = this.find_one(obj, query);
+  //as long as response is not undefined
+  } while (res !== undefined);
+  results.shift() //remove extra
+  return results;
 }
+
+Query.prototype.find_one = function(obj, query){
+  //set out
+  var json = {};
+  //use lowdash _.findKey to find key
+  var key = _.findKey(obj, query);
+  //if no data it found return undefined
+  if(key == undefined){
+    return undefined;
+  } else {
+    //else return json with key and value
+    json[key] = obj[key];
+    return json;
+  }
+}
+
 
 var q = new Query();
 
 
 
 
-obj = {data:"hello", object:{inner:true}}
+obj = {data:"hello", object:{inner:true}, obj:{inner:true}}
 
-
-console.log(new Query().lexer(obj));
-
-console.log(q.searchkeybyvalue(obj, true));
-
-console.log(q.searchvaluebykey(obj, "inner"));
+console.log(q.find_one(obj, {inner:true}));
+console.log(q.find(obj, {inner:true}));
 
 module.exports = Query;
