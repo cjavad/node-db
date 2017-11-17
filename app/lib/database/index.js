@@ -18,7 +18,7 @@ var path = require('path');
  * Create the JSON database
  * @param filename where to save the data base
  * @param saveOnPush saving on modification of the data
- * @param humanReadable is the json file humand readable 
+ * @param humanReadable is the json file humand readable
  * @returns {JsonDB}
  * @constructor
  */
@@ -194,22 +194,41 @@ JsonDB.prototype.delete = function (dataPath) {
         return;
     }
     dbData.delete();
-    
+
     if (this.saveOnPush) {
         this.save();
     }
 };
 
 /**
- * Javad Shafique
- * Filters json with query
+ * @author Javad Shafique
  * @param dataPath path leading to the data
  * @param query query string, object or array
- * @returns {*}
+ * @returns {collection} of objects
  */
-JsonDB.prototype.query = function (dataPath, query) {
-    var data = this.getData(dataPath);
-    return Query(data, query);
+JsonDB.prototype.find = function(dataPath, query){
+  data = this.getData(dataPath);
+  if(typeof data === "object"){
+    return new Query.find(data, query);
+  } else {
+    throw new DataError("Data from", dataPath, "is not an object");
+  }
+}
+
+/*
+* @author Javad Shafique
+* @param dataPath path leading to the data
+* @param query query string, object or array
+* @returns {object}
+*/
+
+JsonDB.prototype.find_one = function(dataPath, query){
+  data = this.getData(dataPath);
+  if(typeof data === "object"){
+    return new Query.find_one(data, query);
+  } else {
+    throw new DataError("Data from", dataPath, "is not an object");
+  }
 }
 
 /**
@@ -268,4 +287,3 @@ JsonDB.prototype.save = function (force) {
 
 
 module.exports = JsonDB;
-

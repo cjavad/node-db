@@ -31,7 +31,19 @@ class DB
     end
 
     def push(path, data, override = false)
-        obj = get_obj @username, @password, "push", path, data
+        obj = get_obj @username, @password, "push", path, data, override
+        @socket.send obj, 0
+        return @socket.recv(@buffer)
+    end
+
+    def find(path, query)
+        obj = get_obj @username, @password, "find", path, data, false
+        @socket.send obj, 0
+        return @socket.recv(@buffer)
+    end
+
+    def find_one(path, query)
+        obj = get_obj @username, @password, "find_one", path, data, false
         @socket.send obj, 0
         return @socket.recv(@buffer)
     end

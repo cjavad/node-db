@@ -7,7 +7,7 @@ const colors = require("colors/safe")
 
 
 const ERRORS = ["PROP_ERR", "AUTH_ERR", "PATH_ERR", "COM_ERR", "RUN_ERR", "PARSE_ERR"];
-const VALID_COMMANDS = ["getData", "push", "delete", "query"];
+const VALID_COMMANDS = ["getData", "push", "delete", "find", "find_one"];
 /**
  * @constant VALID_COMMANDS is an array with all valid commands
  * @constant ERRORS
@@ -73,9 +73,9 @@ function use_db(body){
     } else if(body["command"] === "push"){
         //if you want to push data to database
         return db.push(body.path, body.data, body.override);
-    } else if(body["command"] === "find"){
+    } else if(body["command"] === "find" || body["command"] === "find_one"){
         //if command is a query
-        return db.find(body.path, body.data);
+        return db[body["command"]](body.path, body.data);
     } else {
         //return COM_ERR
         return error(3);
@@ -87,7 +87,7 @@ function parse(jsonstring){
     if(ERRORS.indexOf(json.toString()) > -1){
         return json;
     }
-    //check username/password 
+    //check username/password
     else if(auth.check(json.username, json.password)){
         //return database
         log_command(json.command);

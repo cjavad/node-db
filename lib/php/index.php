@@ -51,4 +51,17 @@ function push($socket, $path, $data, $override){
     socket_write($socket, $json, strlen($json));
     return socket_read($socket, 2048);
 }
+
+function find($socket, $path, $query){
+    $json = json_encode(get_obj("find", $path, json_encode($query), FALSE));
+    socket_write($socket, $json, strlen($json));
+    return socket_read($socket, 2048);
+}
+
+function find_one($socket, $path, $query){
+    $json = json_encode(get_obj("find_one", $path, json_encode($query), FALSE));
+    socket_write($socket, $json, strlen($json));
+    return socket_read($socket, 2048);
+}
+
 ?>

@@ -1,4 +1,3 @@
-import requests
 import json
 import socket
 
@@ -17,7 +16,7 @@ class db:
         self.password = password
         self.buffer = buffer
         self.socket = socket.create_connection((host, port))
-    
+
     def get(self, path):
         obj = bytes(json.dumps(get_obj(self.username, self.password, "getData", path)), "utf-8")
         self.socket.send(obj)
@@ -38,38 +37,15 @@ class db:
         self.socket.send(obj)
         return self.socket.recv(self.buffer).decode("utf-8")
 
-    def checkpath(self, path):
-        if self.get(path) == "PATH_ERR":
-            return False
-        else:
-            return True
+    def find(self, path, query):
+        obj = bytes(json.dumps(get_obj(self.username, self.password, "find", path, query, False)), "utf-8")
+        self.socket.send(obj);
+        return self.socket.recv(self.buffer).decode("utf-8")
 
-
-#Legacy support
-class db_express:
-    def __init__(self, host, port,username, password):
-        self.host = host
-        self.port = port
-        self.username = username
-        self.password = password
-    
-    def req(self, url):
-        return requests.get(url).text
-
-    def get(self, path):
-        obj = get_obj(self.username, self.password, "getData", path)
-        url = "http://" + self.host + ":" + str(self.port) + "/db?body=" + json.dumps(obj)
-        return self.req(url)
-
-    def push(self, path, data, override = True):
-        obj = get_obj(self.username, self.password, "push", path, data, override)
-        url = "http://" + self.host + ":" + str(self.port) + "/db?body=" + json.dumps(obj)
-        return self.req(url)
-
-    def delete(self, path):
-        obj = get_obj(self.username, self.password, "delete", path)
-        url = "http://" + self.host + ":" + str(self.port) + "/db?body=" + json.dumps(obj)
-        return self.req(url)
+    def find_one(self, path, query):
+        obj = bytes(json.dumps(get_obj(self.username, self.password, "find_one", path, query, False)), "utf-8")
+        self.socket.send(obj);
+        return self.socket.recv(self.buffer).decode("utf-8")
 
     def checkpath(self, path):
         if self.get(path) == "PATH_ERR":
