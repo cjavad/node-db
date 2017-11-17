@@ -21,31 +21,31 @@ class DB
     def get(path)
         obj = get_obj @username, @password, "getData", path
         @socket.send obj, 0
-        return @socket.recv(@buffer)
+        return JSON.parse(@socket.recv(@buffer))
     end
 
     def delete(path)
         obj = get_obj @username, @password, "delete", path
         @socket.send obj, 0
-        return @socket.recv(@buffer)
+        return JSON.parse(@socket.recv(@buffer))
     end
 
     def push(path, data, override = false)
         obj = get_obj @username, @password, "push", path, data, override
         @socket.send obj, 0
-        return @socket.recv(@buffer)
+        return JSON.parse(@socket.recv(@buffer))
     end
 
     def find(path, query)
-        obj = get_obj @username, @password, "find", path, data, false
+        obj = get_obj @username, @password, "find", path, query, false
         @socket.send obj, 0
-        return @socket.recv(@buffer)
+        return JSON.parse(@socket.recv(@buffer))
     end
 
     def find_one(path, query)
-        obj = get_obj @username, @password, "find_one", path, data, false
+        obj = get_obj @username, @password, "find_one", path, query, false
         @socket.send obj, 0
-        return @socket.recv(@buffer)
+        return JSON.parse(@socket.recv(@buffer))
     end
 end
 
