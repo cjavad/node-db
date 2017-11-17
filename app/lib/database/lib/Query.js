@@ -104,10 +104,16 @@ Query.prototype.searchvaluebykey = function(obj, key){
     }
     return undefined;
 }
+/*
+* 
+*
+* @argument obj is an json object
+* @argument query an query object see example
+*/
 
-
-Query.prototype.find = function(obj, query, build = []){
-    var lexed = this.lexer(obj, true, false);
+Query.prototype.find = function(obj, query){
+    var lexed = Object.entries(obj);
+    
     
 }
 
@@ -117,6 +123,7 @@ var q = new Query();
 
 
 obj = {data:"hello", object:{inner:true}}
+
 
 console.log(new Query().lexer(obj));
 
