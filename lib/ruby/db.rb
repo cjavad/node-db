@@ -47,6 +47,12 @@ class DB
         @socket.send obj, 0
         return JSON.parse(@socket.recv(@buffer))
     end
+    
+    def use(database)
+        obj = get_obj @username, @password, "use", false, database, false
+        @socket.send obj, 0
+        return JSON.parse(@socket.recv(@buffer))
+    end
 end
 
 #tests
