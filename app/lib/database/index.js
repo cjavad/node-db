@@ -48,6 +48,7 @@ var JsonDB = function (filename, saveOnPush, humanReadable) {
 
     return this;
 };
+
 JsonDB.prototype._processDataPath = function (dataPath) {
     if (dataPath === undefined || !dataPath.trim()) {
         throw new DataError("The Data Path can't be empty", 6);
@@ -283,7 +284,31 @@ JsonDB.prototype.save = function (force) {
     }
 
 };
+/*
+* switch between databases
+* @param filename database .json file
+*/
+JsonDB.prototype.use = function(filename, saveOnPush = true, humanReadable = false){
+  filename = filename + ".json";
+  this.filename = filename;
+  this.saveOnPush = saveOnPush;
+  this.humanReadable = humanReadable;
+  if(!FS.existsSync(this.filename)){
+    FS.writeFile(this.filename, JSON.stringify({}), 'utf8', function(err){
+      this.reload();
+    });
+  } else {
+    this.reload();
+  }
+}
 
+/*
+* Delete current database
+*/
+JsonDB.prototype.drop = function(){
+  //deletes file you will need to "delete JsonDB" to remove object
+  FS.unlink(this.filename, function(err, result){});
+}
 
 
 module.exports = JsonDB;

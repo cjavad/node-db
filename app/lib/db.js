@@ -5,18 +5,20 @@ const auth = require("./auth.js");
 const db = new JsonDB("db", true, true)
 const colors = require("colors/safe")
 
+var LOADED = true;
 
-const ERRORS = ["PROP_ERR", "AUTH_ERR", "PATH_ERR", "COM_ERR", "RUN_ERR", "PARSE_ERR"];
-const VALID_COMMANDS = ["getData", "push", "delete", "find", "find_one"];
+const ERRORS = ["PROPERTY_ERROR", "AUTH_ERROR", "PATH_ERROR", "COMMAND_ERROR", "RUN_ERROR", "PARSE_ERROR", "NO_DATABASE_SELECTED"];
+const VALID_COMMANDS = ["getData", "push", "delete", "find", "find_one", "use", "drop"];
 /**
  * @constant VALID_COMMANDS is an array with all valid commands
  * @constant ERRORS
- * PROP_ERR (0) is given if not enough properties is given
- * AUTH_ERR (1) is given if a wrong username/password is given
- * PATH_ERR (2) is given if a path does't exist
- * COM_ERR (3) is given if a wrong command is given
- * RUN_ERR (4) is given if a runtime error has occoured
- * PARSE_ERR (5) is given if non valid json input is given
+ * PROPERTY_ERROR (0) is given if not enough properties is given
+ * AUTH_ERROR (1) is given if a wrong username/password is given
+ * PATH_ERROR (2) is given if a path does't exist
+ * COMMAND_ERROR (3) is given if a wrong command is given
+ * RUN_ERROR (4) is given if a runtime error has occoured
+ * PARSE_ERROR (5) is given if non valid json input is given
+ * NO_DATABASE_SELECTED (6) is given if not database is selected
  */
 
 //Return custom error based on index
@@ -53,7 +55,7 @@ function parse_json(json_str){
         //if not valid json return false
     } catch(_){ return error(5, json_str); }
     //check if keys exist
-    var check1 = (body["path"] === undefined || body["command"] == undefined || body["username"] == undefined || body["password"] === undefined);
+    var check1 = (body["command"] == undefined || body["username"] == undefined || body["password"] === undefined);
     var check2 = !(VALID_COMMANDS.indexOf(body["command"]) > -1);
     if(!(check1 && check2)){
         return body;
@@ -64,21 +66,33 @@ function parse_json(json_str){
 
 
 function use_db(body){
-    if(body["command"] === "getData" || body["command"] === "delete"){
+    if((body["command"] === "getData" || body["command"] === "delete") && LOADED){
         try{
             return db[body.command](body.path);
         } catch(_){
             return _.name === "DataError" ? error(2, body):error(4, body);
         }
-    } else if(body["command"] === "push"){
+    } else if(body["command"] === "push" && LOADED){
         //if you want to push data to database
         return db.push(body.path, body.data, body.override);
-    } else if(body["command"] === "find" || body["command"] === "find_one"){
+    } else if(body["command"] === "find" || body["command"] === "find_one" && LOADED){
         //if command is a query
         return db[body["command"]](body.path, body.data);
+    } else if(["use", "drop"].indexOf(body["command"]) > -1) {
+      if(body.command === "drop"){
+        db.drop();
+        LOADED = false;
+      } else if(body.command === "use"){
+        console.log("USE", body.data);
+        db.use(body.data);
+        LOADED = true;
+      }
     } else {
-        //return COM_ERR
-        return error(3);
+        //return err
+        if(!LOADED){
+          return error(6, body)
+        }
+        return error(3, body);
     }
 }
 

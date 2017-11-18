@@ -26,7 +26,7 @@ class Query {
             out.push(...element);
         }
         if(state){
-            return eval(out.join(op));
+            return Eval(out.join(op));
         }
         return out;
     }
