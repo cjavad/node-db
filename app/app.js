@@ -7,7 +7,7 @@ const path = require("path");
 const auth = require("./lib/auth.js");
 const db = require("./lib/db.js");
 const fs = require("fs");
-
+const colors = require("colors");
 
 if(process.argv.length < 3){
     console.log("You will need to specify a config file")
@@ -16,13 +16,15 @@ if(process.argv.length < 3){
 
 data = JSON.parse(fs.readFileSync(path.join(__dirname + "/" + process.argv[2])))
 
-//oncougth error handler
+//oncaugth exceptions handler
+//to make sure that this process never dies
 process.on('uncaughtException', function (err) {
-    console.log(db.c.bgYellow(db.c.black("Node NOT Exiting...")), db.c.red(db.c.bold(err)));
-  });
+    console.log(colors.bgYellow(colors.black("Node NOT Exiting...")), colors.red(colors.bold(err)));
+});
 
 //username password config
-auth.config(data.username, data.password);
+//and a basic logging message
+console.log(auth.config(data.username, data.password) ? "Password is set":"Error Password not set");
 const port = data.port || 3434;
 
 
@@ -30,36 +32,47 @@ function start_socket(s_port, host = "0.0.0.0"){
   var server = net.createServer(function(socket) {
       socket.on("data", function(data){
           try {
-              var raw = data.toString();
-              var res = JSON.stringify(db.parse(raw));
+              //parse json and return
+              var res = JSON.stringify(db.parse(data.toString()));
               //write response to socket
-              socket.write(res);
+              socket.write(res, function(err){
+                socket.end();
+              });
           } catch (err) {
               if(err.name == "TypeError" && res !== undefined){
                   console.log(err);
-                  socket.write("ERROR");
+                  socket.write("ERROR", function(err){
+                    socket.end();
+                  });
               }else if(res === undefined){
-                  console.log(db.c.bold(db.c.red(err)), db.c.yellow(raw));
-                  socket.write("OK");
+                  console.log(colors.bold(colors.red(err)), colors.yellow(raw));
+                  socket.write("OK", function(err){
+                    socket.end();
+                  });
               } else {
                   console.log(err);
-                  socket.write("Error");
+                  socket.write("Error", function(err){
+                    socket.end();
+                  });
               }
           }
-      })
+      });
   });
 
   server.on("connection", function(socket){
       //On connection log ip and port
-      console.log(db.c.yellow("Connection from"), db.c.rainbow(socket.remoteAddress + ":" + socket.remotePort));
+      console.log(colors.yellow("Connection from"), colors.rainbow(socket.remoteAddress + ":" + socket.remotePort));
   });
-
+  //listen on port
   server.listen(s_port, host);
 }
 
 
-
+//leagacy support
+//WILL SOON BE REMOVED
+//DO NOT USE (Depricated)
 if(data.type == "express"){
+    console.log(colors.red(colors.bold("Depricated function use socket instead")));
     //if express
     const express = require("express");
     //db config

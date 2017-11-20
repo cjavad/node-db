@@ -31,7 +31,7 @@ function error(error_num, body = undefined){
     }
 }
 
-function log_command(command){
+async function log_command(command){
     if(VALID_COMMANDS.indexOf(command) > -1){
         if(command === "push"){
             console.log(colors.green(command));
@@ -78,20 +78,10 @@ function use_db(body){
     } else if(body["command"] === "find" || body["command"] === "find_one" && LOADED){
         //if command is a query
         return db[body["command"]](body.path, body.data);
-    } else if(["use", "drop"].indexOf(body["command"]) > -1) {
-      if(body.command === "drop"){
-        db.drop();
-        LOADED = false;
-      } else if(body.command === "use"){
-        console.log("USE", body.data);
-        db.use(body.data);
-        LOADED = true;
-      }
+    } else if(body["command"] == "use") {
+      //switch database
+        return db["use"][body.data];
     } else {
-        //return err
-        if(!LOADED){
-          return error(6, body)
-        }
         return error(3, body);
     }
 }
@@ -115,6 +105,5 @@ function parse(jsonstring){
 module.exports = {
     db:db,
     parse:parse,
-    error:error,
-    c:colors
+    error:error
 };

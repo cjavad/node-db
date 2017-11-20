@@ -37,3 +37,17 @@ int socket_connect(char *host, in_port_t port){
 	}
 	return sock;
 }
+
+/*
+const char * get(int sock, char * username, char * password, char * path){
+  write(fd, data, strlen(data)); // write(fd, char[]*, len);
+	bzero(buffer, BUFFER_SIZE);
+
+	while(read(fd, buffer, BUFFER_SIZE - 1) != 0){
+		fprintf(stderr, "%s", buffer);
+		bzero(buffer, BUFFER_SIZE);
+	}
+
+  return buffer;
+}
+*/

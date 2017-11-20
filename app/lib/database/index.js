@@ -302,13 +302,5 @@ JsonDB.prototype.use = function(filename, saveOnPush = true, humanReadable = fal
   }
 }
 
-/*
-* Delete current database
-*/
-JsonDB.prototype.drop = function(){
-  //deletes file you will need to "delete JsonDB" to remove object
-  FS.unlink(this.filename, function(err, result){});
-}
-
 
 module.exports = JsonDB;

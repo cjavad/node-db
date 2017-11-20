@@ -1,38 +1,28 @@
-//lib/auth.js
+//lib/auth.js hashing using builtin crypto libary
 const crypto = require("crypto");
 
 //Simple HASH functions
+function ithash(string){
+    return crypto.createHash("sha256").update(string).digest("hex")
+}
 
-//hardcodes password
+//global passwords password
 let user;
 let pass;
 
 function config(username, password){
     user = username;
-    pass = password;
+    pass = ithash(password);
     return true;
 }
 
-function ithash(string){
-    return crypto.createHash("sha256").update(string).digest("hex")
-}
 
 function check(username, password){
-    if(password === pass && username === user){
-        return true;
-    } else {
-        return false;
-    }
-}
-
-function get(){
-    return ithash(pass)
+  ithash(password) === pass && username === user ? true:false;
 }
 
 
 module.exports = {
     config:config,
-    hash:ithash,
-    check:check,
-    get:get
+    check:check
 }
