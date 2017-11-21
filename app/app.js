@@ -1,4 +1,4 @@
-#!/usr/bin/node
+#!/usr/local/bin/node
 //Node NoSql database by (c) Javad Shafique
 //Require modules that are needed
 
@@ -9,91 +9,78 @@ const db = require("./lib/db.js");
 const fs = require("fs");
 const colors = require("colors");
 
+//check if all args are provided
 if(process.argv.length < 3){
-    console.log("You will need to specify a config file")
+    console.log("You will need to specify a config file");
     process.exit(0);
 }
 
-data = JSON.parse(fs.readFileSync(path.join(__dirname + "/" + process.argv[2])))
+//read config file
+data = JSON.parse(fs.readFileSync(path.join(__dirname + "/" + process.argv[2])));
 
 //oncaugth exceptions handler
 //to make sure that this process never dies
-process.on('uncaughtException', function (err) {
-    console.log(colors.bgYellow(colors.black("Node NOT Exiting...")), colors.red(colors.bold(err)));
+process.on('uncaughtException', (err) => {
+    console.log(colors.bgYellow(colors.black("Node NOT Exiting...")), colors.red(colors.bold(err.stack)));
 });
 
 //username password config
 //and a basic logging message
-console.log(auth.config(data.username, data.password) ? "Password is set":"Error Password not set");
+auth.config(data.username, data.password);
 const port = data.port || 3434;
+const host = data.host || "0.0.0.0";
+const pause = data.pause || false;
 
-
-function start_socket(s_port, host = "0.0.0.0"){
-  var server = net.createServer(function(socket) {
-      socket.on("data", function(data){
-          try {
-              //parse json and return
-              var res = JSON.stringify(db.parse(data.toString()));
-              //write response to socket
-              socket.write(res, function(err){
-                socket.end();
-              });
-          } catch (err) {
-              if(err.name == "TypeError" && res !== undefined){
-                  console.log(err);
-                  socket.write("ERROR", function(err){
-                    socket.end();
-                  });
-              }else if(res === undefined){
-                  console.log(colors.bold(colors.red(err)), colors.yellow(raw));
-                  socket.write("OK", function(err){
-                    socket.end();
-                  });
-              } else {
-                  console.log(err);
-                  socket.write("Error", function(err){
-                    socket.end();
-                  });
-              }
-          }
+//create server
+var server = net.createServer( (socket) => {
+  socket.on("data", (data) => {
+    try {
+      //convert buffer to string
+      var raw = data.toString();
+      //parse and get response
+      var response = JSON.stringify(db.parse(raw));
+      //write response
+      socket.write(response, (err) => {
+        if(err !== undefined){
+          //if there is an error print it in console
+          console.log(colors.red(colors.bold(err)));
+        }
       });
+    } catch (_) {
+      //if error is an typeerror from the fact that the response writen to the
+      //client is undefined write an _OK_ response
+      if(_.name === "TypeError" && response == undefined){
+        socket.write("_OK_", (err) => {
+          if(err !== undefined){
+            //if there is an error print it in console
+            console.log(colors.red(colors.bold(err)));
+          }
+        });
+      //if the error comes from another source
+      //write an _ERROR_ response
+      } else {
+        //else print the error stack
+        console.log(colors.red(colors.bold(_.stack)));
+        socket.write("_ERROR_", (err) => {
+          if(err !== undefined){
+            //if there is an error print it in console
+            console.log(colors.red(colors.bold(err)));
+          }
+        });
+      }
+    }
   });
+});
 
-  server.on("connection", function(socket){
-      //On connection log ip and port
-      console.log(colors.yellow("Connection from"), colors.rainbow(socket.remoteAddress + ":" + socket.remotePort));
-  });
-  //listen on port
-  server.listen(s_port, host);
-}
+//log all connections
+server.on("connection", (socket) => {
+    //On connection log ip and port
+    console.log(colors.yellow("Connection from"), colors.rainbow(socket.remoteAddress + ":" + socket.remotePort));
+});
 
+LOG = colors.green("Server listing on port ") + colors.red(port.toString()) + colors.green(" With the settings ") + colors.yellow(JSON.stringify({pause:data.pause, username:data.username, password:data.password}));
 
-//leagacy support
-//WILL SOON BE REMOVED
-//DO NOT USE (Depricated)
-if(data.type == "express"){
-    console.log(colors.red(colors.bold("Depricated function use socket instead")));
-    //if express
-    const express = require("express");
-    //db config
-    //Express config
-    const app = express();
-
-    //CORS headers
-    app.use(function(req, res, next){
-        res.header("Access-Control-Allow-Origin", "*");
-        res.header("Access-Control-Allow-Headers", "*, *, *, Accept");
-        next();
-    });
-
-    app.get("/db", (req, res) => {
-        console.log()
-        res.send(JSON.stringify(db.parse(req.query.body)));
-        return true;
-    });
-
-    //listen with expressjs
-    app.listen(port);
-} else {
-  start_socket(port);
-}
+//listen on port and host
+server.listen(port, host, () => {
+  console.log(LOG);
+});

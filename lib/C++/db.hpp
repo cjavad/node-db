@@ -79,13 +79,10 @@ string send_and_recv(int sock, string data)
   char buffer[BUFFER_SIZE];
   write(sock, data.c_str(), strlen(data.c_str()));
   bzero(buffer, BUFFER_SIZE);
-  while(read(sock, buffer, BUFFER_SIZE - 1) != 0){
-    out += buffer;
-		bzero(buffer, BUFFER_SIZE);
-	}
+  read(sock, buffer, BUFFER_SIZE - 1);
+  out = buffer;
   return out;
 }
-
 class Db {
   string username, password;
   int socket;

@@ -18,7 +18,11 @@ function config(username, password){
 
 
 function check(username, password){
-  ithash(password) === pass && username === user ? true:false;
+  if(ithash(password) === pass && username === user){
+    return true;
+  } else {
+    return false;
+  }
 }
 
 
