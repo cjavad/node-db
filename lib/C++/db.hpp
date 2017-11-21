@@ -84,20 +84,20 @@ string send_and_recv(int sock, string data)
   return out;
 }
 class Db {
-  string username, password;
-  int socket;
-public:
-  void conn(string host, int port, string user, string pass);
-  string getData(string path);
-  string push(string path, string data, string override);
-  string deletepath(string path);
-  string find(string path, string query);
-  string find_one(string path, string query);
-  string use(string database);
+    string username, password;
+    int socket;
+  public:
+    Db(string host, int port, string user, string pass);
+    string getData(string path);
+    string push(string path, string data, string override);
+    string deletepath(string path);
+    string find(string path, string query);
+    string find_one(string path, string query);
+    string use(string database);
 };
 
 
-void Db::conn(string host, int port, string user, string pass){
+Db::Db (string host, int port, string user, string pass){
   socket = socket_connect_to(host.c_str(), port);
   username = user;
   password = pass;
