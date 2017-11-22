@@ -44,7 +44,7 @@ var server = net.createServer( (socket) => {
         if(err !== undefined){
           //if there is an error print it in console
           console.log(colors.red(colors.bold(err)));
-        }
+        };
       });
     } catch (_) {
       //if error is an typeerror from the fact that the response writen to the
@@ -54,7 +54,7 @@ var server = net.createServer( (socket) => {
           if(err !== undefined){
             //if there is an error print it in console
             console.log(colors.red(colors.bold(err)));
-          }
+          };
         });
       //if the error comes from another source
       //write an _ERROR_ response
@@ -65,10 +65,10 @@ var server = net.createServer( (socket) => {
           if(err !== undefined){
             //if there is an error print it in console
             console.log(colors.red(colors.bold(err)));
-          }
+          };
         });
-      }
-    }
+      };
+    };
   });
 });
 
