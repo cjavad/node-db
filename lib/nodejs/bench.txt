@@ -1,0 +1,2 @@
+Sync-db: 1484.500ms
+Async-db: 38.487ms

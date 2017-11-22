@@ -88,9 +88,9 @@ class Db {
     int socket;
   public:
     Db(string host, int port, string user, string pass);
-    string getData(string path);
+    string get(string path);
     string push(string path, string data, string override);
-    string deletepath(string path);
+    string remove(string path);
     string find(string path, string query);
     string find_one(string path, string query);
     string use(string database);
@@ -103,12 +103,12 @@ Db::Db (string host, int port, string user, string pass){
   password = pass;
 }
 
-string Db::getData(string path){
+string Db::get(string path){
   string json1 = get_obj(username, password, "getData", path, "\"\"", "false");
   return send_and_recv(socket, json1);
 };
 
-string Db::deletepath(string path){
+string Db::remove(string path){
   string json2 = get_obj(username, password, "delete", path, "\"\"", "false");
   return send_and_recv(socket, json2);
 };

@@ -1,0 +1,11 @@
+                              user     system      total        real
+write/read/gets with puts:  0.200000   0.110000   0.310000 (  2.170986)
+write/read/gets with no puts:  0.200000   0.120000   0.320000 (  2.789525)
+write/read/gets with puts on DB.get:  0.200000   0.100000   0.300000 (  2.433806)
+
+
+-----------------------------------------------        
+                              user     system      total        real
+write/read/gets with puts:  0.190000   0.110000   0.300000 (  1.923851)
+write/read/gets with no puts:  0.200000   0.110000   0.310000 (  2.386204)
+write/read/gets with puts on DB.get:  0.190000   0.100000   0.290000 (  6.722863)
