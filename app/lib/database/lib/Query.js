@@ -1,7 +1,6 @@
 /**
  * Copyrigth (C) 2017 Javad Shafique
  */
-var Eval = require("./eval.js");
 var DataError = require("./Errors").DataError
 var _ = require("lodash");
 
@@ -15,18 +14,9 @@ class Query {
     //fun zipping method
     static zip(){
         var out = [];
-        if(VALID_OPERATORS.indexOf(arguments[arguments.length - 1]) > -1){
-            var op = arguments.pop();
-            var state = true;
-        } else {
-            var state = false;
-        }
         for (let i = 0; i < arguments.length; i++) {
             const element = arguments[i];
             out.push(...element);
-        }
-        if(state){
-            return Eval(out.join(op));
         }
         return out;
     }
