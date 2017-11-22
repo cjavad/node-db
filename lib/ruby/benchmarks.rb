@@ -3,11 +3,7 @@ require_relative "db"
 
 dab = DB.new "localhost", 3434, "admin", "password"
 
-def puts(string)
-    #do not output to console
-    #just take performance
-end
-
+#print out everything
 def test(db)
     for i in (0..1000).to_a do
         path = "/" + i.to_s
@@ -17,7 +13,7 @@ def test(db)
     end
 end
 
-
+#dont print
 def no(db)
     for i in (0..1000).to_a do
         path = "/" + i.to_s
@@ -27,6 +23,7 @@ def no(db)
     end
 end
 
+#only print db.get
 def re(db)
     for i in (0..1000).to_a do
         path = "/" + i.to_s
@@ -36,12 +33,20 @@ def re(db)
     end
 end
 
-n = 50000
-Benchmark.bm(1) do |x|
-  x.report("write/read/gets with puts:")   { test(dab) }
-  x.report("write/read/gets with no puts:") { no(dab) }
-  x.report("write/read/gets with puts on DB.get:") { re(dab) }
-end
+
+a = Benchmark.measure { test(dab) } # ("write/read/gets with puts:")   
+b = Benchmark.measure { no(dab) } # ("write/read/gets with no puts:")
+c = Benchmark.measure { re(dab) } # ("write/read/gets with puts on DB.get:") 
+
+f = File.new("bench.txt", "a")
+f.write("write/read/gets with puts:")
+f.write(a)
+f.write("write/read/gets with no puts:")
+f.write(b)
+f.write("write/read/gets with puts on DB.get:")
+f.write(c)
+f.close()
+
 
 =begin
 with puts
