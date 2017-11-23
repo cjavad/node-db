@@ -1,5 +1,11 @@
 {
-    "python.pythonPath": "python3"
+    "python.pythonPath": "python3",
+    "material-icon-theme.folders.associations": {
+        "release":{
+            "icon":"build",
+            "color":"blue"
+        }
+    }
     //"terminal.integrated.shell.osx": "/Applications/iTerm.app"
     }
 }
