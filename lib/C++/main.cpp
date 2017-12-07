@@ -5,12 +5,11 @@
 
 
 int main(){
-  Db database;
-  database.conn("localhost", 3434, "admin", "password");
-  std::cout << database.getData("/") << std::endl;
+  Db database("localhost", 3434, "admin", "password");
+  std::cout << database.get("/") << std::endl;
   std::cout << database.push("/hej", "\"Goddag\"") << std::endl;
-  std::cout << database.getData("/hej") << std::endl;
-  std::cout << database.getData("/") << std::endl;
+  std::cout << database.get("/hej") << std::endl;
+  std::cout << database.get("/") << std::endl;
 }
 
 /*

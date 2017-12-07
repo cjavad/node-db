@@ -2,23 +2,16 @@ import json
 import socket
 
 def get_obj(username, password, command, path, data = None, override = None):
-    if not command in ["push", "getData", "delete", "find", "find_one"]:
-        return False
-    elif data and override != None:
-        return {"username":username,"password":password,"command":command,"path":path,"data":data,"override":override}
-    else:
-        return {"username":username,"password":password,"command":command,"path":path}
-
+    return "depreicated"
 
 class db:
     def __init__(self, host, port, username, password, buffer = 1024):
-        self.username = username
-        self.password = password
         self.buffer = buffer
         self.socket = socket.create_connection((host, port))
+        self.socket.send(bytes(json.dumps({"command":"login","username":username, "password":password}), "utf-8"))
 
     def get(self, path):
-        obj = bytes(json.dumps(get_obj(self.username, self.password, "getData", path)), "utf-8")
+        obj = bytes(json.dumps({"command":"getData", "path":path}), "utf-8")
         self.socket.send(obj)
         d = self.socket.recv(self.buffer).decode("utf-8")
         try:

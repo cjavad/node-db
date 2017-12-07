@@ -1,4 +1,12 @@
-# node-db
+# WARNING
+### Do not use code in branch 
+### It's under development use
+### release/release-1.0.0.zip
+### python libary is also used
+### for testing so you can't use
+### that either
+
+## node-db
 A nosql database written in node (Using a fork of [node-json-db](https://github.com/Belphemur/node-json-db/blob/master/LICENSE))
 using unix-like paths which aims to create a simple to use fast and secure database.
 
