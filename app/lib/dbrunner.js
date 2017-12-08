@@ -56,7 +56,7 @@ function parser(object) {
         object = JSON.parse(object);
     } catch (_) {print.error(colors.red(_)); return error(5, object); }
     //check if required keys exists (using sick Es6 features)
-    if (object.command !== undefined && object.path !== undefined && VALID_COMMANDS.inArray(object.command)) {
+    if (object.command !== undefined && VALID_COMMANDS.inArray(object.command)) {
         return object;
     } else {
         return error(5, object);
@@ -118,12 +118,9 @@ class DB {
         }
     }
     //switch database
-    static use(db, database, saveOnPush = true, humanReadable = false) {
+    static use(db, database, humanReadable = false) {
         print.print(colors.yellow("USE", database));
-        db.filename = database + ".json";
-        db.humanReadable = humanReadable;
-        db.saveOnPush = saveOnPush;
-        db.reload();
+        db.use(database, true, humanReadable);
         this.db = db;
     }
     //write to database (does it automaticly by default)
@@ -141,7 +138,7 @@ DB.prototype.run = function (data) {
     data = parser(data);
     if (ERRORS.inArray(data)) return data;
     if (["use", "push"].includes(data.command)) {
-        return DB[data.command](this.db, data.path, data.data, data.lastBool);
+        return DB[data.command](this.db, data.path, data.data, data.last);
     } else if (["find", "find_one"].inArray(data.command)) {
         return DB[data.command](this.db, data.path, data.data);
     } else if (["getData", "delete"].inArray(data.command)) {

@@ -56,10 +56,7 @@ you will need to escape strings in data
 string get_obj(string username, string password, string command, string path, string data, string override = "false")
 {
   //create long json string hmm...
-  string base = "{\"username\":\""; //delare base and add username base
-  base += username; //add username
-  base += "\",\"password\":\""; //password base
-  base += password; //add password
+  string base = "{";
   base += "\", \"command\":\""; //command base
   base += command; //add command
   base += "\", \"path\":\""; //path base

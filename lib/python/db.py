@@ -21,27 +21,24 @@ class db:
             return d
 
     def push(self, path, data, override = False):
-        obj = bytes(json.dumps(get_obj(self.username, self.password, "push", path, data, override)), "utf-8")
+        obj = bytes(json.dumps({"command":"push", "path":path, "data":data, "last":override}), "utf-8")
         self.socket.send(obj)
         return self.socket.recv(self.buffer).decode("utf-8")
 
     def delete(self, path):
-        obj = bytes(json.dumps(get_obj(self.username, self.password, "delete", path)), "utf-8")
+        obj = bytes(json.dumps({"command":"delete", "path":path}), "utf-8")
         self.socket.send(obj)
         return self.socket.recv(self.buffer).decode("utf-8")
 
     def find(self, path, query):
-        obj = bytes(json.dumps(get_obj(self.username, self.password, "find", path, query, False)), "utf-8")
-        self.socket.send(obj);
+        obj = bytes(json.dumps({"command":"find", "path":path, "data":query}), "utf-8")
+        self.socket.send(obj)
         return self.socket.recv(self.buffer).decode("utf-8")
 
     def find_one(self, path, query):
-        obj = bytes(json.dumps(get_obj(self.username, self.password, "find_one", path, query, False)), "utf-8")
+        obj = bytes(json.dumps({"command":"find", "path":path, "data":query}), "utf-8")
         self.socket.send(obj);
         return self.socket.recv(self.buffer).decode("utf-8")
 
-    def checkpath(self, path):
-        if self.get(path) == "PATH_ERR":
-            return False
-        else:
-            return True
+    def use(self, database):
+        obj = bytes(json.dumps({"command":"use", "data":database, "last"}))
