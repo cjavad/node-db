@@ -7,19 +7,19 @@ using unix-like paths which aims to create a simple to use fast and secure datab
 example in python:
 ```python
 #!bin/python3
-from __init__ import db_socket as database #python database lib
+from __init__ import db as database #python database lib
 
 db = database("localhost", 3434, "admin", "password")
 #push to database
 db.push("/path/with/object", {"key":"Hello"})
 
-print(db.get("/").text) # prints {"path":{"with":{"object":{"key":"Hello"}}}}
+print(db.get("/")) # prints {"path":{"with":{"object":{"key":"Hello"}}}}
 
 print(db.get("/path/to/object/key").text) #prints Hello
 
 db.delete("/") #deletes hole database
 
-print(db.get("/").text) #prints {}
+print(db.get("/")) #prints {}
 
 ```
 or maybe c++?:
@@ -80,4 +80,4 @@ SOFTWARE.
 ### NOTICE
 
 This software product is owned by Javad Shafique only and cannot be owned/created by
-anyone els
+anyone else
