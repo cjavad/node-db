@@ -1,10 +1,4 @@
-# WARNING
-### Do not use code in branch 
-### It's under development use
-### release/release-1.0.0.zip
-### python libary is also used
-### for testing so you can't use
-### that either
+# the programs not works but is still highly unstable so so not use.
 
 ## node-db
 A nosql database written in node (Using a fork of [node-json-db](https://github.com/Belphemur/node-json-db/blob/master/LICENSE))

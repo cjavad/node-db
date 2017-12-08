@@ -8,6 +8,13 @@ const colors = require("colors/safe");
 const ERRORS = ["PROPERTY_ERROR", "AUTH_ERROR", "PATH_ERROR", "COMMAND_ERROR", "RUN_ERROR", "PARSE_ERROR", "NO_DATABASE_SELECTED"];
 const VALID_COMMANDS = ["login", "getData", "push", "delete", "find", "find_one", "use", "save"];
 
+/*
+faster than Array.includes();
+*/
+Array.prototype.inArray = function(string) {
+    return this.indexOf(string) > -1;   
+}
+
 /**
  * @constant VALID_COMMANDS is an array with all valid commands
  * @constant ERRORS
@@ -31,11 +38,12 @@ function error(error_num, body = "_") {
     }
 }
 
+
 /*
 * To check if a string is a error do
-
-ERRORS.indexOf(mystring) > -1 ? true:false
-
+ERRORS.indexOf(mystring) > -1 ? true:false or
+ERRORS.includes(mystring) or my implamentaion
+ERRORS.inArray(mystring)
 */
 
 /*
@@ -46,12 +54,9 @@ Parser
 function parser(object) {
     try {
         object = JSON.parse(object);
-    } catch (_) { return error(5, object); }
-    //get all keys
-    var keys = Object.keys(object);
+    } catch (_) {print.error(colors.red(_)); return error(5, object); }
     //check if required keys exists (using sick Es6 features)
-    if (keys.every(elem => ["command", "path", "session"].indexOf(elem) > -1) && VALID_COMMANDS.includes(object.command)) {
-        print.print(object);
+    if (object.command !== undefined && object.path !== undefined && VALID_COMMANDS.inArray(object.command)) {
         return object;
     } else {
         return error(5, object);
@@ -119,6 +124,7 @@ class DB {
         db.humanReadable = humanReadable;
         db.saveOnPush = saveOnPush;
         db.reload();
+        this.db = db;
     }
     //write to database (does it automaticly by default)
     static save(db) {
@@ -133,13 +139,13 @@ class DB {
 DB.prototype.run = function (data) {
     if (!auth.isLoggedIn(this.session)) return error(1);
     data = parser(data);
-    if (ERRORS.includes(data)) return data;
+    if (ERRORS.inArray(data)) return data;
     if (["use", "push"].includes(data.command)) {
         return DB[data.command](this.db, data.path, data.data, data.lastBool);
-    } else if (["find", "find_one"].includes(data.command)) {
+    } else if (["find", "find_one"].inArray(data.command)) {
         return DB[data.command](this.db, data.path, data.data);
-    } else if (["getData", "delete"].includes(data.command)) {
-        return DB[data.command](this.db, this.path);    
+    } else if (["getData", "delete"].inArray(data.command)) {
+        return DB[data.command](this.db, data.path);    
     } else if (data.command === "save") {
         return DB[data.command](this.db);
     } else {

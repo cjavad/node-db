@@ -50,6 +50,10 @@ function isLoggedIn(hash) {
     return LOGGED_IN.indexOf(hash) > -1 ? true:false;
 }
 
+function logout(key) {
+    var index = LOGGED_IN.indexOf(key);
+    LOGGED_IN.splice(index, 1);
+}
 
 function getkey(username, password) {
     var chars = "QWERTYUIOPASDFGHJKLZXCVBNMqwertyuiopasdfghjklzcvbnm1234567890", out = "";
@@ -62,5 +66,6 @@ module.exports = {
     init: init,
     check: check,
     login: login,
+    logout:logout,
     isLoggedIn: isLoggedIn
 };

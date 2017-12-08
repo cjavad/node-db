@@ -5,7 +5,6 @@
     "\\app\\lib",
     "\\app\\lib\\database",
     "\\app\\lib\\database\\lib",
-    "\\lib\\python",
     "\\release"
   ],
   "SelectedNode": "\\app\\app.js",
