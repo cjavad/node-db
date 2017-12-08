@@ -78,4 +78,4 @@ SOFTWARE.
 ### NOTICE
 
 This software product is owned by Javad Shafique only and cannot be owned/created by
-anyone els
+anyone else
