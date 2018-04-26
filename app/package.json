@@ -8,7 +8,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/JavadSM/node-db.git"
+    "url": "git+https://github.com/cjavad/node-db.git"
   },
   "keywords": [
     "nodejs",
@@ -19,9 +19,9 @@
   "author": "Javad Shafique",
   "license": "SEE LICENCE IN README.md",
   "bugs": {
-    "url": "https://github.com/JavadSM/node-db/issues"
+    "url": "https://github.com/cjavad/node-db/issues"
   },
-  "homepage": "https://github.com/JavadSM/node-db",
+  "homepage": "https://github.com/cjavad/node-db",
   "dependencies": {
     "colors": "^1.1.2",
     "express": "^4.16.2",
