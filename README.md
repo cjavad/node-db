@@ -51,7 +51,7 @@ db = DB.new "localhost", 3434, "admin", "password"
 puts db.get("/")
 ```
 
-You get the point, my goal is to create an fast, awsome to use secure database with an easy api for quick hobby projects that need a database but not as complex as lets say mongodb. i choose to build an NoSql document based database based on JSON which is quite a standard (see my [stackoverflow](https://stackoverflow.com/users/8157440/javadsm?tab=profile) profile for the joke).
+You get the point, my goal is to create an fast, awsome to use secure database with an easy api for quick hobby projects that need a database but not as complex as lets say mongodb. i choose to build an NoSql document based database based on JSON which is quite a standard (see my [stackoverflow](https://stackoverflow.com/users/8157440/javad?tab=profile) profile for the joke).
 
 ## License
 
