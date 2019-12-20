@@ -1,23 +1,25 @@
-# node-db
+# the programs not works but is still highly unstable so so not use.
+
+## node-db
 A nosql database written in node (Using a fork of [node-json-db](https://github.com/Belphemur/node-json-db/blob/master/LICENSE))
 using unix-like paths which aims to create a simple to use fast and secure database.
 
 example in python:
 ```python
 #!bin/python3
-from __init__ import db_socket as database #python database lib
+from __init__ import db as database #python database lib
 
 db = database("localhost", 3434, "admin", "password")
 #push to database
 db.push("/path/with/object", {"key":"Hello"})
 
-print(db.get("/").text) # prints {"path":{"with":{"object":{"key":"Hello"}}}}
+print(db.get("/")) # prints {"path":{"with":{"object":{"key":"Hello"}}}}
 
 print(db.get("/path/to/object/key").text) #prints Hello
 
 db.delete("/") #deletes hole database
 
-print(db.get("/").text) #prints {}
+print(db.get("/")) #prints {}
 
 ```
 or maybe c++?:
@@ -49,7 +51,7 @@ db = DB.new "localhost", 3434, "admin", "password"
 puts db.get("/")
 ```
 
-You get the point, my goal is to create an fast, awsome to use secure database with an easy api for quick hobby projects that need a database but not as complex as lets say mongodb. i choose to build an NoSql document based database based on JSON which is quite a standard (see my [stackoverflow](https://stackoverflow.com/users/8157440/javadsm?tab=profile) profile for the joke).
+You get the point, my goal is to create an fast, awsome to use secure database with an easy api for quick hobby projects that need a database but not as complex as lets say mongodb. i choose to build an NoSql document based database based on JSON which is quite a standard (see my [stackoverflow](https://stackoverflow.com/users/8157440/javad?tab=profile) profile for the joke).
 
 ## License
 
