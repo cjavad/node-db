@@ -1,12 +1,10 @@
 {
   "ExpandedNodes": [
     "",
-    "\\app",
-    "\\app\\lib",
-    "\\app\\lib\\database",
-    "\\app\\lib\\database\\lib",
+    "\\lib\\C++",
+    "\\lib\\C++\\lib",
     "\\release"
   ],
-  "SelectedNode": "\\app\\app.js",
+  "SelectedNode": "\\lib",
   "PreviewInSolutionExplorer": false
 }

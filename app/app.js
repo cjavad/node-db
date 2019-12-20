@@ -17,7 +17,7 @@ if(process.argv.length < 3){
 }
 
 //read config file
-data = JSON.parse(fs.readFileSync(path.join(__dirname + "/" + process.argv[2])));
+data = JSON.parse(fs.readFileSync(path.join("./" + process.argv[2])));
 
 //oncaugth exceptions handler
 //to make sure that this process never dies

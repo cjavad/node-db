@@ -41,4 +41,4 @@ class db:
         return self.socket.recv(self.buffer).decode("utf-8")
 
     def use(self, database):
-        obj = bytes(json.dumps({"command":"use", "data":database, "last"}))
+        obj = bytes(json.dumps({"command":"use", "data":database, "last":""}))

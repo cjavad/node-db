@@ -1,4 +1,4 @@
-# the programs not works but is still highly unstable so so not use.
+# the programs not works but is still highly unstable so so not use, there exist a bug that prevents you from adding to a tree that never had more than one sub element, to "fix" this issue you must recreate the tree with multiple elements then you can use it freely.
 
 ## node-db
 A nosql database written in node (Using a fork of [node-json-db](https://github.com/Belphemur/node-json-db/blob/master/LICENSE))
