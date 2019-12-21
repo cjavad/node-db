@@ -28,7 +28,7 @@ process.on('uncaughtException', (err) => {
 //username password config
 //and a basic logging message
 auth.init(data.username, data.password);
-const port = data.port || 3434;
+const port = data.port || process.env.PORT || 3434;
 const host = data.host || "0.0.0.0";
 process.env.LOG = data.LOG || true;
 process.env.ERROR = data.ERROR || true;
