@@ -1,0 +1,15 @@
+write/read/gets with puts:  0.230000   0.150000   0.380000 (  3.092731)
+write/read/gets with no puts:  0.200000   0.110000   0.310000 (  2.713553)
+write/read/gets with puts on DB.get:  0.270000   0.140000   0.410000 ( 16.095532)
+
+__
+
+write/read/gets with puts:  0.280000   0.180000   0.460000 ( 14.481374)
+write/read/gets with no puts:  0.190000   0.100000   0.290000 (  2.058524)
+write/read/gets with puts on DB.get:  0.210000   0.130000   0.340000 (  2.621179)
+
+__
+
+write/read/gets with puts:  0.230000   0.150000   0.380000 (  2.709897)
+write/read/gets with no puts:  0.190000   0.110000   0.300000 (  2.201991)
+write/read/gets with puts on DB.get:  0.210000   0.120000   0.330000 (  2.561266)
