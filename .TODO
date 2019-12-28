@@ -4,4 +4,5 @@ TODO:
     ✔ NEED to replace eval() @critical @security
     ☐ Add a system so not every one can access all paths?? @low 
     ✔ You cant do add . in args or ints or use , in ints @high @function @done(17-11-10 09:18)
+    ☐ Redo all libraries for the different languages to match our session based auth @high @function
  
