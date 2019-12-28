@@ -2,44 +2,45 @@ Lovely Count Lines Of Code results maybe the best motivator in the world :-)
 
 app folder
 ```
-      15 text files.
-classified 15 files
-      15 unique files.                              
-       2 files ignored.
+      18 text files.
+      18 unique files.                              
+       4 files ignored.
 
-github.com/AlDanial/cloc v 1.74  T=0.11 s (120.4 files/s, 10515.6 lines/s)
+github.com/AlDanial/cloc v 1.76  T=1.02 s (14.7 files/s, 1605.2 lines/s)
 -------------------------------------------------------------------------------
 Language                     files          blank        comment           code
 -------------------------------------------------------------------------------
-JavaScript                      10            118            236            665
-Markdown                         2             20              0             62
-JSON                             1              0              0             34
+JavaScript                      11            132            237            757
+JSON                             2              0              0            432
+Markdown                         2             21              0             63
 -------------------------------------------------------------------------------
-SUM:                            13            138            236            761
+SUM:                            15            153            237           1252
 -------------------------------------------------------------------------------
 ```
 
 Libary folder
 
 ```
-      30 text files.
-classified 30 files
-      30 unique files.                              
-       4 files ignored.
+     36 text files.
+      36 unique files.                              
+       7 files ignored.
 
-github.com/AlDanial/cloc v 1.74  T=0.20 s (132.3 files/s, 5581.2 lines/s)
+github.com/AlDanial/cloc v 1.76  T=1.03 s (29.2 files/s, 1208.6 lines/s)
 -------------------------------------------------------------------------------
 Language                     files          blank        comment           code
 -------------------------------------------------------------------------------
-PHP                              7             29              2            204
-JavaScript                       4             42             25            181
-C/C++ Header                     3             36             21            170
-Python                           5             37              1            166
-Ruby                             2             10              1             56
+PHP                              7             29             11            213
+JavaScript                       5             44             27            201
+Python                           5             39              6            164
+C/C++ Header                     2             30             21            134
+Ruby                             2             21              7             93
+JSON                             1              0              0             33
 C                                2              9              0             31
+C++                              2             11             26             27
 Java                             1              6              2             26
-C++                              2              7             16             19
+HTML                             1              1              0             12
+Markdown                         2              4              0             12
 -------------------------------------------------------------------------------
-SUM:                            26            176             68            853
+SUM:                            30            194            100            946
 -------------------------------------------------------------------------------
 ```

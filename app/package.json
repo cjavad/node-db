@@ -1,11 +1,11 @@
 {
   "name": "node-db",
-  "version": "1.0.0",
+  "version": "0.0.2",
   "description": "A NoSql database in node",
   "main": "app.js",
   "engines": {
     "node": "12.8.0",
-    "npm":"6.x"
+    "npm": "6.x"
   },
   "scripts": {
     "start": "node app.js standard.conf"

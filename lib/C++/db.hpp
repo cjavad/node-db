@@ -48,12 +48,29 @@ int socket_connect_to(const char *host, in_port_t port){
 	return sock;
 }
 
+/*
+Create login string
+*/
+
+string get_login(string username, string password) 
+{
+  string base = "{";
+  base += "\"command\":\""; //command base
+  base += "login"; //add command
+  base += "\", \"username\":\""; //path base
+  base += username; //add path
+  base += "\", \"password\":\""; //data base
+  base += password; //add data
+  base += "\"}"; //add ending charecter
+  return base; //return base
+}
+
 
 /*
 works that what it takes when you  choose json
 you will need to escape strings in data
 */
-string get_obj(string username, string password, string command, string path, string data, string override = "false")
+string get_obj(string command, string path, string data, string override = "false")
 {
   //create long json string hmm...
   string base = "{";
@@ -63,9 +80,9 @@ string get_obj(string username, string password, string command, string path, st
   base += path; //add path
   base += "\", \"data\":"; //data base
   base += data; //add data
-  base += ",\"override\":"; //override base
+  base += ",\"override\":\""; //override base
   base += override; //add override
-  base += "}"; //add ending charecter
+  base += "\"}"; //add ending charecter
   return base; //return base
 };
 
@@ -83,6 +100,7 @@ string send_and_recv(int sock, string data)
 class Db {
     string username, password;
     int socket;
+    string login;
   public:
     Db(string host, int port, string user, string pass);
     string get(string path);
@@ -96,37 +114,37 @@ class Db {
 
 Db::Db (string host, int port, string user, string pass){
   socket = socket_connect_to(host.c_str(), port);
-  username = user;
-  password = pass;
+  login = get_login(user, pass);
+  write(socket, login.c_str(), strlen(login.c_str()));
 }
 
 string Db::get(string path){
-  string json1 = get_obj(username, password, "getData", path, "\"\"", "false");
+  string json1 = get_obj("getData", path, "\"\"", "false");
   return send_and_recv(socket, json1);
 };
 
 string Db::remove(string path){
-  string json2 = get_obj(username, password, "delete", path, "\"\"", "false");
+  string json2 = get_obj("delete", path, "\"\"", "false");
   return send_and_recv(socket, json2);
 };
 
 string Db::find(string path, string query){
-  string json3 = get_obj(username, password, "find", path, query, "false");
+  string json3 = get_obj("find", path, query, "false");
   return send_and_recv(socket, json3);
 };
 
 string Db::find_one(string path, string query){
-  string json4 = get_obj(username, password, "find_one", path, query, "false");
+  string json4 = get_obj("find_one", path, query, "false");
   return send_and_recv(socket, json4);
 };
 
 string Db::use(string database){
-  string json5 = get_obj(username, password, "use", "/", database, "false");
+  string json5 = get_obj("use", "/", database, "false");
   return send_and_recv(socket, json5);
 };
 
 
 string Db::push(string path, string data, string override = "false"){
-  string json6 = get_obj(username, password, "push", path, data, override);
+  string json6 = get_obj("push", path, data, override);
   return send_and_recv(socket, json6);
 };

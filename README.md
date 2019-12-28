@@ -1,8 +1,9 @@
-# the programs not works but is still highly unstable so so not use, there exist a bug that prevents you from adding to a tree that never had more than one sub element, to "fix" this issue you must recreate the tree with multiple elements then you can use it freely.
-
 ## node-db
 A nosql database written in node (Using a fork of [node-json-db](https://github.com/Belphemur/node-json-db/blob/master/LICENSE))
-using unix-like paths which aims to create a simple to use fast and secure database.
+using unix-like paths which aims to create a simple to use, flexible and secure database.
+
+
+# Due to a rework of how the database works, only the python 3 library works currently. I am working to fix this issue (the login command issued on start) currently so you again can use this in multiple languages. 
 
 example in python:
 ```python
@@ -51,7 +52,7 @@ db = DB.new "localhost", 3434, "admin", "password"
 puts db.get("/")
 ```
 
-You get the point, my goal is to create an fast, awsome to use secure database with an easy api for quick hobby projects that need a database but not as complex as lets say mongodb. i choose to build an NoSql document based database based on JSON which is quite a standard (see my [stackoverflow](https://stackoverflow.com/users/8157440/javad?tab=profile) profile for the joke).
+You get the point, my goal is to create an flexible, awsome to use secure database with an easy api for quick hobby projects that need a database but not as complex as lets say mongodb. i choose to build an NoSql document based database based on JSON which is quite a standard (see my [stackoverflow](https://stackoverflow.com/users/8157440/javad?tab=profile) profile for the joke).
 
 ## License
 
