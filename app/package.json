@@ -28,7 +28,7 @@
   "homepage": "https://github.com/cjavad/node-db",
   "dependencies": {
     "colors": "^1.1.2",
-    "express": "^4.16.2",
+    "express": "^4.17.3",
     "lodash": "^4.17.19",
     "mkdirp": "^0.5.6"
   }
